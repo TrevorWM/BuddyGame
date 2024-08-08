@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bhoo4pm1mwoxd"]
+[gd_scene load_steps=16 format=3 uid="uid://bhoo4pm1mwoxd"]
 
 [ext_resource type="PackedScene" uid="uid://c82wmbywkux6w" path="res://scenes/player.tscn" id="1_n7tn8"]
+[ext_resource type="Script" path="res://scenes/buddy.gd" id="2_epdmb"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2hh0y"]
 sky_top_color = Color(0.379371, 0.557964, 0.868519, 1)
@@ -16,28 +17,102 @@ sky = SubResource("Sky_sdpit")
 ssao_enabled = true
 sdfgi_enabled = true
 
+[sub_resource type="NavigationMesh" id="NavigationMesh_y7aug"]
+vertices = PackedVector3Array(-24.5, -0.456741, -24.5, -24.5, -0.456741, 24.5, 24.5, -0.456741, 24.5, 24.5, -0.456741, -24.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_s6htm"]
 size = Vector2(50, 50)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_bhoub"]
 
-[node name="World" type="Node3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_nakqv"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_ub3rv")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ewgop"]
+albedo_color = Color(1, 0.533333, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_u4lsl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_01pmt"]
+albedo_color = Color(0.403922, 0.721569, 0.32549, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_0n2x8"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0848a"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5cb3n"]
+
+[node name="World" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Player" parent="." instance=ExtResource("1_n7tn8")]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ub3rv")
 
-[node name="Ground" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0165722, 0, 0)
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0165722, 0.956741, 0)
+navigation_mesh = SubResource("NavigationMesh_y7aug")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+[node name="Ground" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.956741, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Ground"]
 mesh = SubResource("PlaneMesh_s6htm")
-skeleton = NodePath("../..")
+skeleton = NodePath("../../..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Ground"]
 shape = SubResource("WorldBoundaryShape3D_bhoub")
+
+[node name="Obstacle" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0165722, 0.430186, 2.56252)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacle"]
+shape = SubResource("BoxShape3D_nakqv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacle"]
+material_override = SubResource("StandardMaterial3D_ewgop")
+mesh = SubResource("BoxMesh_u4lsl")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="Obstacle"]
+
+[node name="Obstacle2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.54987, 0.430186, 2.56252)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacle2"]
+shape = SubResource("BoxShape3D_nakqv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacle2"]
+material_override = SubResource("StandardMaterial3D_ewgop")
+mesh = SubResource("BoxMesh_u4lsl")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="Obstacle2"]
+
+[node name="Player" parent="." groups=["Player"] instance=ExtResource("1_n7tn8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06938, 12.5073)
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="Player"]
+
+[node name="Buddy" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0165722, 0.542971, 0)
+script = ExtResource("2_epdmb")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Buddy"]
+material_override = SubResource("StandardMaterial3D_01pmt")
+mesh = SubResource("SphereMesh_0n2x8")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Buddy"]
+avoidance_enabled = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Buddy"]
+shape = SubResource("SphereShape3D_0848a")
+
+[node name="Area3D" type="Area3D" parent="Buddy" groups=["Buddy"]]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Buddy/Area3D"]
+shape = SubResource("SphereShape3D_5cb3n")
+
+[connection signal="navigation_finished" from="Buddy/NavigationAgent3D" to="Buddy" method="_on_navigation_agent_3d_navigation_finished"]
+[connection signal="body_entered" from="Buddy/Area3D" to="Buddy" method="_on_area_3d_body_entered"]
