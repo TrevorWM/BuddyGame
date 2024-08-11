@@ -2,13 +2,17 @@ extends Node3D
 class_name FollowCameraController
 
 @export var camera_target: Node3D
+
+@export_category("Sensitivity")
 @export var yaw_sensitivity: float = 0.2
 @export var pitch_sensitivity: float = 0.2
 
+@export_category("Constraints")
+@export var pitch_max: float = 30
+@export var pitch_min: float = -50
+
 var camera_yaw: float
 var camera_pitch: float
-var pitch_max: float = 30
-var pitch_min: float = -50
 
 func update_camera():
 	if camera_target:
@@ -19,6 +23,9 @@ func update_camera():
 		print("No camera target set")
 
 func _input(event):
+	if not camera_target:
+		return
+	
 	if event is InputEventMouseMotion:
 		camera_yaw += -event.relative.x * yaw_sensitivity
 		camera_pitch += -event.relative.y * pitch_sensitivity

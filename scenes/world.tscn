@@ -1,7 +1,7 @@
-[gd_scene load_steps=19 format=3 uid="uid://bhoo4pm1mwoxd"]
+[gd_scene load_steps=15 format=3 uid="uid://bhoo4pm1mwoxd"]
 
 [ext_resource type="PackedScene" uid="uid://c82wmbywkux6w" path="res://scenes/player.tscn" id="1_n7tn8"]
-[ext_resource type="Script" path="res://scripts/buddy.gd" id="2_epdmb"]
+[ext_resource type="PackedScene" uid="uid://cs7ufcprscwtt" path="res://scenes/buddy.tscn" id="2_rrblp"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2hh0y"]
 sky_top_color = Color(0.379371, 0.557964, 0.868519, 1)
@@ -32,15 +32,6 @@ size = Vector2(50, 50)
 albedo_color = Color(1, 0.533333, 1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_u4lsl"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_01pmt"]
-albedo_color = Color(0.403922, 0.721569, 0.32549, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_0n2x8"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_0848a"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_5cb3n"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_ojvq7"]
 
@@ -110,30 +101,7 @@ mesh = SubResource("BoxMesh_u4lsl")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06938, 12.5073)
 collision_mask = 6
 
-[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="Player"]
-
-[node name="Buddy" type="CharacterBody3D" parent="." groups=["Buddy"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0165722, 0.542971, 0)
-collision_layer = 2
-collision_mask = 7
-script = ExtResource("2_epdmb")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Buddy"]
-material_override = SubResource("StandardMaterial3D_01pmt")
-mesh = SubResource("SphereMesh_0n2x8")
-
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Buddy"]
-avoidance_enabled = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Buddy"]
-shape = SubResource("SphereShape3D_0848a")
-
-[node name="Area3D" type="Area3D" parent="Buddy"]
-transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
-collision_layer = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Buddy/Area3D"]
-shape = SubResource("SphereShape3D_5cb3n")
+[node name="Buddy" parent="." instance=ExtResource("2_rrblp")]
 
 [node name="Food" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.54701, 0, 4.91628)
@@ -146,6 +114,3 @@ surface_material_override/0 = SubResource("StandardMaterial3D_m005q")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Food"]
 shape = SubResource("CylinderShape3D_c5i5x")
-
-[connection signal="navigation_finished" from="Buddy/NavigationAgent3D" to="Buddy" method="_on_navigation_agent_3d_navigation_finished"]
-[connection signal="body_entered" from="Buddy/Area3D" to="Buddy" method="_on_area_3d_body_entered"]

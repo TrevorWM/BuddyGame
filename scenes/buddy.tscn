@@ -1,0 +1,72 @@
+[gd_scene load_steps=11 format=3 uid="uid://cs7ufcprscwtt"]
+
+[ext_resource type="Script" path="res://scripts/buddy.gd" id="1_jecxs"]
+[ext_resource type="Resource" uid="uid://b0o4rl00u0x23" path="res://assets/resources/sloth_buddy.tres" id="2_kbf7g"]
+[ext_resource type="Script" path="res://scripts/utility_ai/utility_agent.gd" id="2_kjxmh"]
+[ext_resource type="Script" path="res://scripts/utility_ai/utility_consideration.gd" id="3_vlvfe"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_01pmt"]
+albedo_color = Color(0.403922, 0.721569, 0.32549, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_0n2x8"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0848a"]
+
+[sub_resource type="Curve" id="Curve_1w1lg"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.25, 0.2), -2.09982, -2.09982, 0, 0, Vector2(0.5, 0.01), -0.108537, -0.108537, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_r3dfj"]
+_data = [Vector2(0, 0.3), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="Curve" id="Curve_v6lym"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.2, 0.5), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Buddy" type="CharacterBody3D" node_paths=PackedStringArray("utility_agent") groups=["Buddy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0165722, 0.542971, 0)
+collision_layer = 2
+collision_mask = 7
+script = ExtResource("1_jecxs")
+stats = ExtResource("2_kbf7g")
+utility_agent = NodePath("UtilityAgent")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_01pmt")
+mesh = SubResource("SphereMesh_0n2x8")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
+radius = 1.25
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_0848a")
+
+[node name="StateText" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.723019, 0)
+text = "State: "
+
+[node name="UtilityAgent" type="Node" parent="." node_paths=PackedStringArray("buddy")]
+script = ExtResource("2_kjxmh")
+buddy = NodePath("..")
+
+[node name="Sleep" type="Node" parent="UtilityAgent"]
+script = ExtResource("3_vlvfe")
+stat = 4
+score_curve = SubResource("Curve_1w1lg")
+
+[node name="Idle" type="Node" parent="UtilityAgent"]
+script = ExtResource("3_vlvfe")
+stat = 5
+score_curve = SubResource("Curve_r3dfj")
+
+[node name="Wander" type="Node" parent="UtilityAgent"]
+script = ExtResource("3_vlvfe")
+stat = 4
+score_curve = SubResource("Curve_v6lym")
+
+[node name="ScoreUpdateTimer" type="Timer" parent="UtilityAgent"]
+
+[connection signal="scores_updated" from="UtilityAgent" to="." method="_on_utility_agent_scores_updated"]
+[connection signal="timeout" from="UtilityAgent/ScoreUpdateTimer" to="UtilityAgent" method="_on_score_update_timer_timeout"]

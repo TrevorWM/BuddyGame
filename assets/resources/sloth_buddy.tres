@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BuddyStatsResource" load_steps=2 format=3 uid="uid://b0o4rl00u0x23"]
+
+[ext_resource type="Script" path="res://scripts/resources/buddy_stats.gd" id="1_y0wom"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_y0wom")
+max_muscle = 5
+muscle = 2
+max_brains = 5
+brains = 2
+max_luck = 10
+luck = 10
+max_zoom = 5
+zoom = 1
+max_energy = 5
+energy = 5

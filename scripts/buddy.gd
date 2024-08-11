@@ -1,20 +1,37 @@
+class_name Buddy
 extends CharacterBody3D
 
+enum BUDDY_STATE{
+	IDLE,
+	WANDER,
+	SLEEP,
+}
+
 @export var movement_speed: float = 4.0
+@export var stats: BuddyStatsResource
+@export var utility_agent: UtilityAgent
+
 @onready var navigation_agent: NavigationAgent3D = get_node("NavigationAgent3D")
+
+var state = BUDDY_STATE.IDLE
+var wander_radius: float = 5.0
 
 func _ready() -> void:
 	navigation_agent.velocity_computed.connect(Callable(_on_velocity_computed))
+	$StateText.text = BUDDY_STATE.keys()[state]
+	movement_speed = stats.zoom
+	
 
 func set_movement_target(movement_target: Vector3):
 	navigation_agent.set_target_position(movement_target)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if navigation_agent.is_navigation_finished():
 		return
 
 	var next_path_position: Vector3 = navigation_agent.get_next_path_position()
 	var new_velocity: Vector3 = global_position.direction_to(next_path_position) * movement_speed
+	
 	if navigation_agent.avoidance_enabled:
 		navigation_agent.velocity = new_velocity
 	else:
@@ -24,11 +41,35 @@ func _on_velocity_computed(safe_velocity: Vector3):
 	velocity = safe_velocity
 	move_and_slide()
 
-
-func _on_navigation_agent_3d_navigation_finished():
-	set_movement_target(NavigationServer3D.map_get_closest_point(get_world_3d().navigation_map, $"../Player".global_position))
-
-
 func _on_area_3d_body_entered(body):
 	if body.is_in_group("Player"):
 		set_movement_target(body.global_position)
+
+func _on_utility_agent_scores_updated():
+	var top_score: String = utility_agent.get_semi_random_top_score()
+	
+	if top_score == "Sleep" or state == BUDDY_STATE.SLEEP:
+		set_movement_target(global_position)
+		state = BUDDY_STATE.SLEEP
+		$StateText.text = BUDDY_STATE.keys()[state]
+		stats.energy += 1
+		if stats.energy == stats.max_energy:
+			state = BUDDY_STATE.IDLE
+		return
+		
+	if top_score == "Wander" and not state == BUDDY_STATE.SLEEP:
+		state = BUDDY_STATE.WANDER
+		$StateText.text = BUDDY_STATE.keys()[state]
+		stats.energy -= 1
+		
+		if navigation_agent.is_navigation_finished():
+			var random_position = Vector3(
+				randf_range(-wander_radius, wander_radius), 
+				0, 
+				randf_range(-wander_radius, wander_radius))
+			set_movement_target(random_position)
+		
+	if top_score == "Idle":
+		set_movement_target(global_position)
+		state = BUDDY_STATE.IDLE
+		$StateText.text = BUDDY_STATE.keys()[state]
