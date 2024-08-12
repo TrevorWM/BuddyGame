@@ -15,3 +15,7 @@ max_zoom = 5
 zoom = 1
 max_energy = 5
 energy = 5
+max_affection = 100
+affection = 100
+max_boredom = 100
+boredom = 100

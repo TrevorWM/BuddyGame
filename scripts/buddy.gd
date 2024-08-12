@@ -7,20 +7,20 @@ enum BUDDY_STATE{
 	SLEEP,
 }
 
-@export var movement_speed: float = 4.0
+@export var wander_radius: float = 5.0
 @export var stats: BuddyStatsResource
 @export var utility_agent: UtilityAgent
 
 @onready var navigation_agent: NavigationAgent3D = get_node("NavigationAgent3D")
 
 var state = BUDDY_STATE.IDLE
-var wander_radius: float = 5.0
+var movement_speed: float
 
 func _ready() -> void:
 	navigation_agent.velocity_computed.connect(Callable(_on_velocity_computed))
 	$StateText.text = BUDDY_STATE.keys()[state]
+	$MeshInstance3D.get_active_material(0).albedo_color = Color.GREEN_YELLOW
 	movement_speed = stats.zoom
-	
 
 func set_movement_target(movement_target: Vector3):
 	navigation_agent.set_target_position(movement_target)
@@ -41,17 +41,14 @@ func _on_velocity_computed(safe_velocity: Vector3):
 	velocity = safe_velocity
 	move_and_slide()
 
-func _on_area_3d_body_entered(body):
-	if body.is_in_group("Player"):
-		set_movement_target(body.global_position)
-
 func _on_utility_agent_scores_updated():
-	var top_score: String = utility_agent.get_semi_random_top_score()
+	var top_score: String = utility_agent.get_random_top_score_in_range()
 	
-	if top_score == "Sleep" or state == BUDDY_STATE.SLEEP:
+	if state == BUDDY_STATE.SLEEP or top_score == "Sleep":
 		set_movement_target(global_position)
 		state = BUDDY_STATE.SLEEP
 		$StateText.text = BUDDY_STATE.keys()[state]
+		$MeshInstance3D.get_active_material(0).albedo_color = Color.BLUE_VIOLET
 		stats.energy += 1
 		if stats.energy == stats.max_energy:
 			state = BUDDY_STATE.IDLE
@@ -61,6 +58,7 @@ func _on_utility_agent_scores_updated():
 		state = BUDDY_STATE.WANDER
 		$StateText.text = BUDDY_STATE.keys()[state]
 		stats.energy -= 1
+		$MeshInstance3D.get_active_material(0).albedo_color = Color.DODGER_BLUE
 		
 		if navigation_agent.is_navigation_finished():
 			var random_position = Vector3(
@@ -73,3 +71,4 @@ func _on_utility_agent_scores_updated():
 		set_movement_target(global_position)
 		state = BUDDY_STATE.IDLE
 		$StateText.text = BUDDY_STATE.keys()[state]
+		$MeshInstance3D.get_active_material(0).albedo_color = Color.GREEN_YELLOW

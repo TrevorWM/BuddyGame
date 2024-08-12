@@ -1,6 +1,7 @@
 class_name BuddyStatsResource
 extends Resource
 
+@export_category("Player Facing Stats")
 @export var max_muscle: int
 @export var muscle: int:
 	get:
@@ -35,3 +36,18 @@ extends Resource
 		return energy
 	set(value):
 		energy = clampi(value, 0, max_energy)
+
+@export_category("Hidden Stats")
+@export var max_affection: int
+@export var affection: int:
+	get:
+		return affection
+	set(value):
+		affection = clampi(value, 0, max_affection)
+		
+@export var max_boredom: int
+@export var boredom: int:
+	get:
+		return boredom
+	set(value):
+		boredom = clampi(value, 0, max_boredom)
