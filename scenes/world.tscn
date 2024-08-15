@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://bhoo4pm1mwoxd"]
+[gd_scene load_steps=17 format=3 uid="uid://bhoo4pm1mwoxd"]
 
 [ext_resource type="PackedScene" uid="uid://c82wmbywkux6w" path="res://scenes/player.tscn" id="1_n7tn8"]
 [ext_resource type="PackedScene" uid="uid://cs7ufcprscwtt" path="res://scenes/buddy.tscn" id="2_rrblp"]
+[ext_resource type="Script" path="res://scripts/resources/buddy_stats.gd" id="3_kwk1o"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2hh0y"]
 sky_top_color = Color(0.379371, 0.557964, 0.868519, 1)
@@ -32,6 +33,24 @@ size = Vector2(50, 50)
 albedo_color = Color(1, 0.533333, 1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_u4lsl"]
+
+[sub_resource type="Resource" id="Resource_456cj"]
+resource_local_to_scene = true
+script = ExtResource("3_kwk1o")
+max_muscle = 5
+muscle = 2
+max_brains = 5
+brains = 2
+max_luck = 10
+luck = 10
+max_zoom = 5
+zoom = 1
+max_energy = 5
+energy = 5
+max_affection = 100
+affection = 100
+max_boredom = 100
+boredom = 100
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_ojvq7"]
 
@@ -102,6 +121,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06938, 12.5073)
 collision_mask = 6
 
 [node name="Buddy" parent="." instance=ExtResource("2_rrblp")]
+stats = SubResource("Resource_456cj")
 
 [node name="Food" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.54701, 0, 4.91628)

@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://cs7ufcprscwtt"]
+[gd_scene load_steps=13 format=3 uid="uid://cs7ufcprscwtt"]
 
 [ext_resource type="Script" path="res://scripts/buddy.gd" id="1_jecxs"]
 [ext_resource type="Resource" uid="uid://b0o4rl00u0x23" path="res://assets/resources/sloth_buddy.tres" id="2_kbf7g"]
 [ext_resource type="Script" path="res://scripts/utility_ai/utility_agent.gd" id="2_kjxmh"]
 [ext_resource type="Script" path="res://scripts/utility_ai/utility_consideration.gd" id="3_vlvfe"]
+[ext_resource type="PackedScene" uid="uid://cc7assuoxjhwv" path="res://scenes/components/interactable_component.tscn" id="5_0nmuo"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_01pmt"]
 albedo_color = Color(0.403922, 0.721569, 0.32549, 1)
@@ -23,6 +24,9 @@ point_count = 1
 [sub_resource type="Curve" id="Curve_v6lym"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.2, 0.5), 0.0, 0.0, 0, 0]
 point_count = 2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_xtq4j"]
+radius = 0.728524
 
 [node name="Buddy" type="CharacterBody3D" node_paths=PackedStringArray("utility_agent") groups=["Buddy"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0165722, 0.542971, 0)
@@ -53,20 +57,28 @@ buddy = NodePath("..")
 
 [node name="Sleep" type="Node" parent="UtilityAgent"]
 script = ExtResource("3_vlvfe")
-stat = 4
+stat = 5
 score_curve = SubResource("Curve_1w1lg")
 
 [node name="Idle" type="Node" parent="UtilityAgent"]
 script = ExtResource("3_vlvfe")
-stat = 5
+stat = 4
 score_curve = SubResource("Curve_r3dfj")
 
 [node name="Wander" type="Node" parent="UtilityAgent"]
 script = ExtResource("3_vlvfe")
-stat = 4
+stat = 5
 score_curve = SubResource("Curve_v6lym")
 
 [node name="ScoreUpdateTimer" type="Timer" parent="UtilityAgent"]
 
+[node name="InteractableComponent" parent="." instance=ExtResource("5_0nmuo")]
+hint_text = "Pet the boi"
+
+[node name="CollisionShape3D" parent="InteractableComponent/Area3D" index="0"]
+shape = SubResource("SphereShape3D_xtq4j")
+
 [connection signal="scores_updated" from="UtilityAgent" to="." method="_on_utility_agent_scores_updated"]
 [connection signal="timeout" from="UtilityAgent/ScoreUpdateTimer" to="UtilityAgent" method="_on_score_update_timer_timeout"]
+
+[editable path="InteractableComponent"]

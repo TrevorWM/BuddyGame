@@ -11,12 +11,15 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
+func _process(delta):
+	handle_mouse_mode()
+	handle_interact()
+
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	
-	handle_mouse_mode()
 	handle_jump()
 	handle_movement()
 	move_and_slide()
@@ -35,6 +38,7 @@ func handle_movement():
 		# and the mesh to match the movement direction
 		velocity = velocity.rotated(Vector3.UP, follow_camera_controller.rotation.y)
 		$MeshInstance3D.look_at(global_position + Vector3(velocity.x, 0, velocity.z))
+		$InteractorComponent.look_at(global_position + Vector3(velocity.x, 0, velocity.z))
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
@@ -49,3 +53,7 @@ func handle_mouse_mode():
 	
 	if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE and Input.is_action_just_pressed("click"):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+func handle_interact() -> void:
+	if Input.is_action_just_pressed("interact"):
+		$InteractorComponent.interact()

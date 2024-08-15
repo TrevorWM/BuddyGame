@@ -13,10 +13,15 @@ class_name FollowCameraController
 
 var camera_yaw: float
 var camera_pitch: float
+var last_position: Vector3
+
+func _ready():
+	last_position = position
 
 func update_camera():
 	if camera_target:
-		position = lerp(position, camera_target.position, 0.25)
+		position = lerp(last_position, position, 0.25)
+		last_position = position
 		rotation_degrees.y = lerp(rotation_degrees.y, camera_yaw, 0.25)
 		rotation_degrees.x = lerp(rotation_degrees.x, camera_pitch, 0.25)
 	else:

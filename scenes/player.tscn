@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://c82wmbywkux6w"]
+[gd_scene load_steps=8 format=3 uid="uid://c82wmbywkux6w"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_yuymn"]
 [ext_resource type="Script" path="res://scripts/follow_camera_controller.gd" id="2_6n667"]
+[ext_resource type="PackedScene" uid="uid://b34ypqren5krx" path="res://scenes/components/interactor_component.tscn" id="3_yedpf"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xxlo6"]
 
@@ -31,12 +32,11 @@ skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_hrtr0")
 
 [node name="FollowCameraController" type="Marker3D" parent="." node_paths=PackedStringArray("camera_target")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.47046, 1.82954, 0)
-top_level = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.768687, 0.558749, 0)
 script = ExtResource("2_6n667")
 camera_target = NodePath("..")
-yaw_sensitivity = 0.02
-pitch_sensitivity = 0.02
+yaw_sensitivity = 0.05
+pitch_sensitivity = 0.05
 
 [node name="CameraArm" type="SpringArm3D" parent="FollowCameraController"]
 transform = Transform3D(1, 0, 0, 0, 0.958854, 0.283898, 0, -0.283898, 0.958854, 0, 0, 0)
@@ -44,5 +44,9 @@ collision_mask = 4
 spring_length = 5.0
 
 [node name="Camera3D" type="Camera3D" parent="FollowCameraController/CameraArm"]
-transform = Transform3D(1, 0, 0, 0, 0.987906, -0.155055, 0, 0.155055, 0.987906, 0, 2.38419e-07, 5)
+transform = Transform3D(1, 0, 0, 0, 0.987906, -0.155055, 0, 0.155055, 0.987906, 0, -1, 5)
 current = true
+
+[node name="InteractorComponent" parent="." groups=["Player"] instance=ExtResource("3_yedpf")]
+
+[editable path="InteractorComponent"]
