@@ -2,9 +2,12 @@
 
 [ext_resource type="Script" path="res://scripts/components/interactable_component.gd" id="1_uevti"]
 
-[node name="InteractableComponent" type="Node3D" node_paths=PackedStringArray("text_label")]
+[node name="InteractableComponent" type="Node3D" node_paths=PackedStringArray("text_label", "cooldown_timer")]
 script = ExtResource("1_uevti")
 text_label = NodePath("InteractLabel")
+cooldown_timer = NodePath("InteractCooldown")
+
+[node name="InteractCooldown" type="Timer" parent="."]
 
 [node name="Area3D" type="Area3D" parent="."]
 collision_layer = 16
@@ -16,5 +19,6 @@ collision_mask = 16
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 text = "Interact"
 
+[connection signal="timeout" from="InteractCooldown" to="." method="_on_interact_cooldown_timeout"]
 [connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
 [connection signal="area_exited" from="Area3D" to="." method="_on_area_3d_area_exited"]

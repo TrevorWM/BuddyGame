@@ -123,6 +123,16 @@ collision_mask = 6
 [node name="Buddy" parent="." instance=ExtResource("2_rrblp")]
 stats = SubResource("Resource_456cj")
 
+[node name="Buddy2" parent="." node_paths=PackedStringArray("utility_agent") instance=ExtResource("2_rrblp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.81068, 0.542971, 0)
+stats = SubResource("Resource_456cj")
+utility_agent = NodePath("../Buddy/UtilityAgent")
+
+[node name="Buddy3" parent="." node_paths=PackedStringArray("utility_agent") instance=ExtResource("2_rrblp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.36043, 0.542971, -0.00168467)
+stats = SubResource("Resource_456cj")
+utility_agent = NodePath("../Buddy/UtilityAgent")
+
 [node name="Food" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.54701, 0, 4.91628)
 collision_layer = 8

@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cc7assuoxjhwv" path="res://scenes/components/interactable_component.tscn" id="5_0nmuo"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_01pmt"]
+resource_local_to_scene = true
 albedo_color = Color(0.403922, 0.721569, 0.32549, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_0n2x8"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c82wmbywkux6w"]
+[gd_scene load_steps=8 format=3 uid="uid://c82wmbywkux6w"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_yuymn"]
 [ext_resource type="Script" path="res://scripts/follow_camera_controller.gd" id="2_6n667"]
@@ -12,9 +12,6 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hrtr0"]
 albedo_color = Color(1, 0.156863, 0.14902, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_vbrkb"]
-size = Vector3(3, 1.6, 3)
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("follow_camera_controller")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06938, 0)
@@ -35,7 +32,7 @@ skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_hrtr0")
 
 [node name="FollowCameraController" type="Marker3D" parent="." node_paths=PackedStringArray("camera_target")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.769, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.768687, 0.558749, 0)
 top_level = true
 script = ExtResource("2_6n667")
 camera_target = NodePath("..")
@@ -52,9 +49,5 @@ transform = Transform3D(1, 0, 0, 0, 0.987906, -0.155055, 0, 0.155055, 0.987906, 
 current = true
 
 [node name="InteractorComponent" parent="." groups=["Player"] instance=ExtResource("3_yedpf")]
-
-[node name="CollisionShape3D" parent="InteractorComponent/Area3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
-shape = SubResource("BoxShape3D_vbrkb")
 
 [editable path="InteractorComponent"]

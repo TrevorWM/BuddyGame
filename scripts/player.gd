@@ -11,7 +11,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
-func _process(delta):
+func _process(_delta):
 	handle_mouse_mode()
 	handle_interact()
 
@@ -31,14 +31,13 @@ func handle_movement():
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
+		velocity.x = input_dir.x * SPEED
+		velocity.z = input_dir.y * SPEED
 		
-		# rotates the velocity to match the camera direction
-		# and the mesh to match the movement direction
+		# rotates the velocity to match the camera direction and character to face
+		# the direction moving
 		velocity = velocity.rotated(Vector3.UP, follow_camera_controller.rotation.y)
-		$MeshInstance3D.look_at(global_position + Vector3(velocity.x, 0, velocity.z))
-		$InteractorComponent.look_at(global_position + Vector3(velocity.x, 0, velocity.z))
+		look_at(global_position + Vector3(velocity.x, 0, velocity.z))
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
