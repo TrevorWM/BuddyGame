@@ -1,7 +1,7 @@
 class_name UtilityConsideration
 extends Node
 
-@export var stat: Globals.STAT_USED
+@export var stat: Globals.STAT
 @export var score_curve: Curve
 
 var curve_x: float
@@ -16,15 +16,15 @@ func get_score() -> float:
 func update_curve_x() -> void:
 	var value: float = 0.0
 	match stat:
-		Globals.STAT_USED.MUSCLE:
+		Globals.STAT.MUSCLE:
 			value = float(stats.muscle) / float(stats.max_muscle)
-		Globals.STAT_USED.BRAINS:
+		Globals.STAT.BRAINS:
 			value = float(stats.brains) / float(stats.max_brains)
-		Globals.STAT_USED.LUCK:
+		Globals.STAT.LUCK:
 			value = float(stats.luck) / float(stats.max_luck)
-		Globals.STAT_USED.ZOOM:
+		Globals.STAT.ZOOM:
 			value = float(stats.zoom) / float(stats.max_zoom)
-		Globals.STAT_USED.ENERGY:
+		Globals.STAT.ENERGY:
 			value = float(stats.energy) / float(stats.max_energy)
 		_:
 			value = 0.0

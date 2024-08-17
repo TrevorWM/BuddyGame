@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bhoo4pm1mwoxd"]
+[gd_scene load_steps=19 format=3 uid="uid://bhoo4pm1mwoxd"]
 
 [ext_resource type="PackedScene" uid="uid://c82wmbywkux6w" path="res://scenes/player.tscn" id="1_n7tn8"]
 [ext_resource type="PackedScene" uid="uid://cs7ufcprscwtt" path="res://scenes/buddy.tscn" id="2_rrblp"]
@@ -35,6 +35,42 @@ albedo_color = Color(1, 0.533333, 1, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_u4lsl"]
 
 [sub_resource type="Resource" id="Resource_456cj"]
+resource_local_to_scene = true
+script = ExtResource("3_kwk1o")
+max_muscle = 5
+muscle = 2
+max_brains = 5
+brains = 2
+max_luck = 10
+luck = 10
+max_zoom = 5
+zoom = 1
+max_energy = 5
+energy = 5
+max_affection = 100
+affection = 100
+max_boredom = 100
+boredom = 100
+
+[sub_resource type="Resource" id="Resource_hcopo"]
+resource_local_to_scene = true
+script = ExtResource("3_kwk1o")
+max_muscle = 5
+muscle = 2
+max_brains = 5
+brains = 2
+max_luck = 10
+luck = 10
+max_zoom = 5
+zoom = 1
+max_energy = 5
+energy = 5
+max_affection = 100
+affection = 100
+max_boredom = 100
+boredom = 100
+
+[sub_resource type="Resource" id="Resource_p65c2"]
 resource_local_to_scene = true
 script = ExtResource("3_kwk1o")
 max_muscle = 5
@@ -125,12 +161,12 @@ stats = SubResource("Resource_456cj")
 
 [node name="Buddy2" parent="." node_paths=PackedStringArray("utility_agent") instance=ExtResource("2_rrblp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.81068, 0.542971, 0)
-stats = SubResource("Resource_456cj")
+stats = SubResource("Resource_hcopo")
 utility_agent = NodePath("../Buddy/UtilityAgent")
 
 [node name="Buddy3" parent="." node_paths=PackedStringArray("utility_agent") instance=ExtResource("2_rrblp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.36043, 0.542971, -0.00168467)
-stats = SubResource("Resource_456cj")
+stats = SubResource("Resource_p65c2")
 utility_agent = NodePath("../Buddy/UtilityAgent")
 
 [node name="Food" type="StaticBody3D" parent="."]

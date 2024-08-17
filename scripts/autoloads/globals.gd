@@ -1,6 +1,6 @@
 extends Node
 
-enum STAT_USED {
+enum STAT {
 	NONE,
 	MUSCLE,
 	BRAINS,
