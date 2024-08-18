@@ -7,21 +7,20 @@ extends Node3D
 var is_grabbing: bool = false
 var current_object: Node3D
 
+signal grabbed
+signal dropped
+
+func _physics_process(_delta):
+	if is_grabbing and current_object != null:
+		current_object.transform.origin = hold_position.global_position
+
 func grab_object(object: Node3D) -> void:
-	object.get_parent().remove_child(object)
-	hold_position.add_child(object)
-	print(object.name)
-	object.position = Vector3.ZERO
 	current_object = object
+	is_grabbing = true
+	grabbed.emit()
 
 func drop_object() -> void:
-	drop_raycast.force_raycast_update()
+	is_grabbing = false
+	current_object = null
+	dropped.emit()
 	
-	if drop_raycast.is_colliding():
-		var ground:Node3D = drop_raycast.get_collider().owner
-		
-		hold_position.remove_child(current_object)
-		ground.add_child(current_object)
-		#current_object.global_position = hold_position.global_position
-		current_object = null
-		

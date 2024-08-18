@@ -5,11 +5,15 @@ const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
 @export var follow_camera_controller: FollowCameraController
+@export var interactor_component: InteractorComponent
+@export var grabber_component: GrabberComponent
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	grabber_component.grabbed.connect(interactor_component.interactable_grabbed)
+	grabber_component.dropped.connect(interactor_component.interactable_dropped)
 
 func _process(_delta):
 	handle_mouse_mode()
@@ -55,4 +59,7 @@ func handle_mouse_mode():
 
 func handle_interact() -> void:
 	if Input.is_action_just_pressed("interact"):
-		$InteractorComponent.interact()
+		if grabber_component.is_grabbing:
+			interactor_component.interact_with_grabbed(grabber_component)
+		else:
+			interactor_component.interact()

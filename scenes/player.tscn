@@ -17,10 +17,12 @@ albedo_color = Color(1, 0.156863, 0.14902, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_vbrkb"]
 size = Vector3(3, 1.6, 3)
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("follow_camera_controller")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("follow_camera_controller", "interactor_component", "grabber_component")]
 collision_mask = 5
 script = ExtResource("1_yuymn")
 follow_camera_controller = NodePath("FollowCameraController")
+interactor_component = NodePath("InteractorComponent")
+grabber_component = NodePath("Grabber")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_xxlo6")
