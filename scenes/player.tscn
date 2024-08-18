@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://c82wmbywkux6w"]
+[gd_scene load_steps=10 format=3 uid="uid://c82wmbywkux6w"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_yuymn"]
 [ext_resource type="Script" path="res://scripts/follow_camera_controller.gd" id="2_6n667"]
 [ext_resource type="PackedScene" uid="uid://b34ypqren5krx" path="res://scenes/components/interactor_component.tscn" id="3_yedpf"]
+[ext_resource type="Script" path="res://scripts/components/grabber_component.gd" id="4_ky2l5"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xxlo6"]
 
@@ -17,7 +18,6 @@ albedo_color = Color(1, 0.156863, 0.14902, 1)
 size = Vector3(3, 1.6, 3)
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("follow_camera_controller")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06938, 0)
 collision_mask = 5
 script = ExtResource("1_yuymn")
 follow_camera_controller = NodePath("FollowCameraController")
@@ -56,5 +56,19 @@ current = true
 [node name="CollisionShape3D" parent="InteractorComponent/Area3D" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
 shape = SubResource("BoxShape3D_vbrkb")
+
+[node name="Grabber" type="Node3D" parent="." node_paths=PackedStringArray("hold_position", "drop_raycast")]
+script = ExtResource("4_ky2l5")
+hold_position = NodePath("HoldPosition")
+drop_raycast = NodePath("HoldPosition/RayCast3D")
+
+[node name="HoldPosition" type="Node3D" parent="Grabber"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.262695, -1)
+
+[node name="RayCast3D" type="RayCast3D" parent="Grabber/HoldPosition"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.146414, 0)
+enabled = false
+target_position = Vector3(0, -2, 0)
+collision_mask = 4
 
 [editable path="InteractorComponent"]

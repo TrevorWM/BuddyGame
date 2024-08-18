@@ -35,17 +35,19 @@ func get_camera_target() -> InteractableComponent:
 	if not interact_area.has_overlapping_areas():
 		return null
 	
-	var closest_target: float
-	var _current_targets: Dictionary
+	var closest_distance: float = 99999
+	var closest_target: InteractableComponent
 	
 	for area in interact_area.get_overlapping_areas():
 		if area.owner is InteractableComponent:
 			var screen_pos: Vector2 = camera.unproject_position(area.global_position)
 			var center_distance: float = screen_pos.distance_to(get_viewport().size/2)
-			_current_targets[area.owner] = center_distance
-	
-	closest_target = _current_targets.values().min()
-	return _current_targets.find_key(closest_target)
+			
+			if center_distance < closest_distance:
+				closest_distance = center_distance
+				closest_target = area.owner
+			
+	return closest_target
 
 
 func _on_update_timer_timeout():
@@ -55,5 +57,5 @@ func _on_update_timer_timeout():
 	current_interactable = get_camera_target()
 	
 	if current_interactable != null:
-		current_interactable.show_hint_text()
+		current_interactable.show_hint_text(self)
 		update_timer.start()

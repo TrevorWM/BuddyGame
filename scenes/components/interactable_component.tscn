@@ -17,6 +17,7 @@ collision_mask = 16
 
 [node name="InteractLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+billboard = 1
 text = "Interact"
 
 [connection signal="timeout" from="InteractCooldown" to="." method="_on_interact_cooldown_timeout"]

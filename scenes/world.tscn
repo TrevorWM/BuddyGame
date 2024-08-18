@@ -1,8 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://bhoo4pm1mwoxd"]
+[gd_scene load_steps=15 format=3 uid="uid://bhoo4pm1mwoxd"]
 
 [ext_resource type="PackedScene" uid="uid://c82wmbywkux6w" path="res://scenes/player.tscn" id="1_n7tn8"]
 [ext_resource type="PackedScene" uid="uid://cs7ufcprscwtt" path="res://scenes/buddy.tscn" id="2_rrblp"]
 [ext_resource type="Script" path="res://scripts/resources/buddy_stats.gd" id="3_kwk1o"]
+[ext_resource type="PackedScene" uid="uid://cgld3uom0jokk" path="res://scenes/food.tscn" id="4_dgxo0"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2hh0y"]
 sky_top_color = Color(0.379371, 0.557964, 0.868519, 1)
@@ -51,55 +52,6 @@ max_affection = 100
 affection = 100
 max_boredom = 100
 boredom = 100
-
-[sub_resource type="Resource" id="Resource_hcopo"]
-resource_local_to_scene = true
-script = ExtResource("3_kwk1o")
-max_muscle = 5
-muscle = 2
-max_brains = 5
-brains = 2
-max_luck = 10
-luck = 10
-max_zoom = 5
-zoom = 1
-max_energy = 5
-energy = 5
-max_affection = 100
-affection = 100
-max_boredom = 100
-boredom = 100
-
-[sub_resource type="Resource" id="Resource_p65c2"]
-resource_local_to_scene = true
-script = ExtResource("3_kwk1o")
-max_muscle = 5
-muscle = 2
-max_brains = 5
-brains = 2
-max_luck = 10
-luck = 10
-max_zoom = 5
-zoom = 1
-max_energy = 5
-energy = 5
-max_affection = 100
-affection = 100
-max_boredom = 100
-boredom = 100
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_ojvq7"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m005q"]
-albedo_color = Color(0.360784, 0.894118, 1, 1)
-emission = Color(0, 0.701961, 0.87451, 1)
-emission_energy_multiplier = 1.13
-rim_tint = 0.51
-subsurf_scatter_strength = 0.04
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_c5i5x"]
-height = 2.10655
-radius = 0.566755
 
 [node name="World" type="Node3D"]
 
@@ -153,30 +105,11 @@ mesh = SubResource("BoxMesh_u4lsl")
 [node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="Obstacle2"]
 
 [node name="Player" parent="." groups=["Player"] instance=ExtResource("1_n7tn8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06938, 12.5073)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.53638, 12.5073)
 collision_mask = 6
 
 [node name="Buddy" parent="." instance=ExtResource("2_rrblp")]
 stats = SubResource("Resource_456cj")
 
-[node name="Buddy2" parent="." node_paths=PackedStringArray("utility_agent") instance=ExtResource("2_rrblp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.81068, 0.542971, 0)
-stats = SubResource("Resource_hcopo")
-utility_agent = NodePath("../Buddy/UtilityAgent")
-
-[node name="Buddy3" parent="." node_paths=PackedStringArray("utility_agent") instance=ExtResource("2_rrblp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.36043, 0.542971, -0.00168467)
-stats = SubResource("Resource_p65c2")
-utility_agent = NodePath("../Buddy/UtilityAgent")
-
-[node name="Food" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.54701, 0, 4.91628)
-collision_layer = 8
-collision_mask = 4
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Food"]
-mesh = SubResource("CylinderMesh_ojvq7")
-surface_material_override/0 = SubResource("StandardMaterial3D_m005q")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Food"]
-shape = SubResource("CylinderShape3D_c5i5x")
+[node name="Food" parent="." instance=ExtResource("4_dgxo0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.583, 1.08569, 4.696)
