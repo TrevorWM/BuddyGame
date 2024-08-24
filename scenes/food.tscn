@@ -1,29 +1,20 @@
-[gd_scene load_steps=7 format=3 uid="uid://cgld3uom0jokk"]
+[gd_scene load_steps=6 format=3 uid="uid://cgld3uom0jokk"]
 
 [ext_resource type="Script" path="res://scripts/food.gd" id="1_b5x6m"]
 [ext_resource type="PackedScene" uid="uid://cc7assuoxjhwv" path="res://scenes/components/interactable_component.tscn" id="1_k8kur"]
+[ext_resource type="PackedScene" uid="uid://dlql2gtv7w4mc" path="res://assets/models/fruit/energy_fruit.glb" id="3_wfimo"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_p18ya"]
 size = Vector3(0.5, 0.75, 0.5)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_ojvq7"]
-top_radius = 0.25
-bottom_radius = 0.25
-height = 0.5
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f1cs3"]
+radius = 0.0842477
+height = 0.378791
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m005q"]
-albedo_color = Color(0.360784, 0.894118, 1, 1)
-emission = Color(0, 0.701961, 0.87451, 1)
-emission_energy_multiplier = 1.13
-rim_tint = 0.51
-subsurf_scatter_strength = 0.04
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_ts7a8"]
-radius = 0.320512
-
-[node name="Food" type="RigidBody3D" node_paths=PackedStringArray("interactable_component")]
+[node name="Food" type="RigidBody3D" node_paths=PackedStringArray("interactable_component") groups=["Food"]]
 collision_layer = 8
 collision_mask = 4
+mass = 0.5
 script = ExtResource("1_b5x6m")
 interactable_component = NodePath("InteractableComponent")
 
@@ -36,13 +27,12 @@ shape = SubResource("BoxShape3D_p18ya")
 [node name="InteractLabel" parent="InteractableComponent" index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CylinderMesh_ojvq7")
-skeleton = NodePath("")
-surface_material_override/0 = SubResource("StandardMaterial3D_m005q")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_ts7a8")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0931684, 0)
+shape = SubResource("CapsuleShape3D_f1cs3")
+
+[node name="EnergyFruitModel" parent="." instance=ExtResource("3_wfimo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0180442, -0.292778, 0)
 
 [connection signal="activated" from="InteractableComponent" to="." method="_on_interactable_component_activated"]
 

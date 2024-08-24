@@ -60,7 +60,10 @@ func get_camera_target() -> InteractableComponent:
 func _on_update_timer_timeout():
 	if object_grabbed:
 		return
-		
+	
+	if not owner is Player:
+		return
+	
 	if current_interactable:
 		current_interactable.hide_hint_text()
 	

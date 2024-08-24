@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c82wmbywkux6w"]
+[gd_scene load_steps=11 format=3 uid="uid://c82wmbywkux6w"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_yuymn"]
 [ext_resource type="Script" path="res://scripts/follow_camera_controller.gd" id="2_6n667"]
@@ -17,7 +17,9 @@ albedo_color = Color(1, 0.156863, 0.14902, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_vbrkb"]
 size = Vector3(3, 1.6, 3)
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("follow_camera_controller", "interactor_component", "grabber_component")]
+[sub_resource type="CanvasTexture" id="CanvasTexture_immcn"]
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("follow_camera_controller", "interactor_component", "grabber_component") groups=["Player"]]
 collision_mask = 5
 script = ExtResource("1_yuymn")
 follow_camera_controller = NodePath("FollowCameraController")
@@ -72,5 +74,29 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.146414, 0)
 enabled = false
 target_position = Vector3(0, -2, 0)
 collision_mask = 4
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="HUD"]
+modulate = Color(0, 0, 0, 0.27451)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.5
+offset_top = -2.5
+offset_right = 2.5
+offset_bottom = 2.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_immcn")
 
 [editable path="InteractorComponent"]

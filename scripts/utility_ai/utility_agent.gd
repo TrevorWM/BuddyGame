@@ -2,15 +2,18 @@ class_name UtilityAgent
 extends Node
 
 @export var buddy: Buddy
+@export var score_update_timer: Timer
 
 signal scores_updated
 
 var scores: Dictionary
+var top_consideration: UtilityConsideration
+var current_action: UtilityConsideration
 
 enum CATEGORY{
-	None,
-	Need,
-	Want,
+	DEFAULT = 1,
+	WANT = 2,
+	NEED = 10,
 }
 
 func _ready():
@@ -19,8 +22,7 @@ func _ready():
 		if child is UtilityConsideration:
 			child.stats = buddy.stats
 			scores[child.name] = child.get_score()
-			child.update_curve_x()
-	$ScoreUpdateTimer.start()
+	score_update_timer.start()
 	
 func update_scores() -> void:
 	for child in get_children():
@@ -29,7 +31,10 @@ func update_scores() -> void:
 
 func _on_score_update_timer_timeout():
 	update_scores()
-	scores_updated.emit()
+	print(scores)
+	use_top_score_behaviour()
+	var stat_string :String = "State %s\nEnergy: %s (%s/%s)"
+	$Control/Label.text = stat_string % [current_action.name,(float(buddy.stats.energy)/float(buddy.stats.max_energy)), str(buddy.stats.energy),str(buddy.stats.max_energy)]
 	
 func get_top_score() -> String:
 	return scores.find_key(scores.values().max())
@@ -43,3 +48,13 @@ func sort_descending(a, b):
 	if a > b:
 		return true
 	return false
+
+func use_top_score_behaviour() -> void:
+	if current_action:
+		if current_action.must_complete and not current_action.is_complete:
+			current_action.activate_behaviour(buddy)
+			return
+		
+	var utility_action: UtilityConsideration = get_node(get_random_top_score_in_range(1))
+	current_action = utility_action
+	current_action.activate_behaviour(buddy)

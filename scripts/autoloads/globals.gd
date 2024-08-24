@@ -7,4 +7,6 @@ enum STAT {
 	LUCK,
 	ZOOM,
 	ENERGY,
+	BOREDOM,
+	AFFECTION,
 }
