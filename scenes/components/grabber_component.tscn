@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7746pmtfhu71"]
+
+[ext_resource type="Script" path="res://scripts/components/grabber_component.gd" id="1_uxwk2"]
+
+[node name="Grabber" type="Node3D" node_paths=PackedStringArray("hold_position", "drop_raycast")]
+script = ExtResource("1_uxwk2")
+hold_position = NodePath("HoldPosition")
+drop_raycast = NodePath("HoldPosition/RayCast3D")
+
+[node name="HoldPosition" type="Node3D" parent="."]
+
+[node name="RayCast3D" type="RayCast3D" parent="HoldPosition"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.146414, 0)
+enabled = false
+target_position = Vector3(0, -2, 0)
+collision_mask = 4

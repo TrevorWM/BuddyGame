@@ -1,0 +1,43 @@
+class_name AIFind
+extends UtilityConsideration
+
+@export var target_group: String
+@export var max_range: float = 10.0
+
+var nearest_target
+var nearest_distance: float = 0
+var target_reached = false
+
+func activate_behaviour(buddy: Buddy) -> void:
+	is_complete = false
+	target_reached = false
+	buddy.state_text.text = "FINDING FOOD"
+	
+	if not buddy.navigation_agent.is_navigation_finished():
+		return	
+	
+	var targets = get_tree().get_nodes_in_group(target_group)
+
+	if targets.size() < 1:
+		print(owner.name + " did not find any valid targets from " + target_group + " group in tree")
+		return
+		
+	nearest_distance = max_range
+	
+	for target in targets:
+		var current_distance = target.global_position.distance_to(buddy.global_position)
+		
+		if current_distance < nearest_distance:
+			nearest_target = target
+			nearest_distance = current_distance
+
+	if nearest_target != null:
+		buddy.set_movement_target(nearest_target.global_position)
+		if buddy.navigation_agent.is_navigation_finished():
+			target_reached = true
+			is_complete = true
+	else:
+		print(owner.name + " did not find any valid targets in " + target_group + " group within range")
+		is_complete = true
+		
+	

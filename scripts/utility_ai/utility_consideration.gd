@@ -1,14 +1,11 @@
 class_name UtilityConsideration
-extends Node
+extends AIAction
 
-@export var must_complete: bool
 @export var stat: Globals.STAT
-@export var category: UtilityAgent.CATEGORY
 @export var score_curve: Curve
 
 var curve_x: float
 var stats: BuddyStatsResource
-var is_complete: bool = true
 
 func get_score() -> float:
 	update_curve_x()
@@ -34,6 +31,3 @@ func update_curve_x() -> void:
 		_:
 			printerr("Invalid stat chosen for " + name)
 	curve_x = value
-
-func activate_behaviour(_buddy: Buddy) -> void:
-	pass

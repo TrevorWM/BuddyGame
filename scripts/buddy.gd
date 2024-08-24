@@ -11,6 +11,8 @@ enum BUDDY_STATE{
 @export var stats: BuddyStatsResource
 @export var utility_agent: UtilityAgent
 @export var state_text: Label3D
+@export var interactor_component: InteractorComponent
+@export var grabber_component: GrabberComponent
 
 @onready var navigation_agent: NavigationAgent3D = get_node("NavigationAgent3D")
 
@@ -48,3 +50,11 @@ func get_random_nearby_position() -> Vector3:
 				randf_range(-wander_radius, wander_radius), 
 				0, 
 				randf_range(-wander_radius, wander_radius))
+
+func use_interactor(group: String) -> void:
+	interactor_component.set_target_group(group)
+	
+	if grabber_component.is_grabbing:
+		interactor_component.interact_with_grabbed(grabber_component)
+	else:
+		interactor_component.interact()

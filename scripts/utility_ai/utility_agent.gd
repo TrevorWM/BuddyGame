@@ -7,26 +7,27 @@ extends Node
 signal scores_updated
 
 var scores: Dictionary
-var top_consideration: UtilityConsideration
-var current_action: UtilityConsideration
+var current_action: AIAction
 
 enum CATEGORY{
 	DEFAULT = 1,
 	WANT = 2,
-	NEED = 10,
+	NEED = 3,
 }
 
 func _ready():
 	await owner.ready
 	for child in get_children():
-		if child is UtilityConsideration:
+		if child is UtilityConsideration or child is UtilityAggregator:
 			child.stats = buddy.stats
+			if child is UtilityAggregator:
+				child.propagate_stats()
 			scores[child.name] = child.get_score()
 	score_update_timer.start()
 	
 func update_scores() -> void:
 	for child in get_children():
-		if child is UtilityConsideration:
+		if child is UtilityConsideration or child is UtilityAggregator:
 			scores[child.name] = child.get_score()
 
 func _on_score_update_timer_timeout():
@@ -55,6 +56,6 @@ func use_top_score_behaviour() -> void:
 			current_action.activate_behaviour(buddy)
 			return
 		
-	var utility_action: UtilityConsideration = get_node(get_random_top_score_in_range(1))
+	var utility_action: AIAction = get_node(get_random_top_score_in_range(2))
 	current_action = utility_action
 	current_action.activate_behaviour(buddy)

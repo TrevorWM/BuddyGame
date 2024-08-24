@@ -1,5 +1,5 @@
 class_name AIWander
-extends "res://scripts/utility_ai/utility_consideration.gd"
+extends UtilityConsideration
 
 func activate_behaviour(buddy: Buddy) -> void:
 	if buddy.navigation_agent.is_navigation_finished():

@@ -21,7 +21,9 @@ interactable_component = NodePath("InteractableComponent")
 [node name="InteractableComponent" parent="." instance=ExtResource("1_k8kur")]
 hint_text = "Pick up food"
 
-[node name="CollisionShape3D" parent="InteractableComponent/Area3D" index="0"]
+[node name="Area3D" parent="InteractableComponent" index="1" groups=["Food"]]
+
+[node name="CollisionShape3D" parent="InteractableComponent/Area3D" index="0" groups=["Food"]]
 shape = SubResource("BoxShape3D_p18ya")
 
 [node name="InteractLabel" parent="InteractableComponent" index="2"]

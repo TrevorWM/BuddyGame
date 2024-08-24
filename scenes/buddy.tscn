@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cs7ufcprscwtt"]
+[gd_scene load_steps=23 format=3 uid="uid://cs7ufcprscwtt"]
 
 [ext_resource type="Script" path="res://scripts/buddy.gd" id="1_jecxs"]
 [ext_resource type="Resource" uid="uid://b0o4rl00u0x23" path="res://assets/resources/sloth_buddy.tres" id="2_kbf7g"]
@@ -7,7 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://cc7assuoxjhwv" path="res://scenes/components/interactable_component.tscn" id="5_0nmuo"]
 [ext_resource type="Script" path="res://scripts/utility_ai/considerations/ai_wander.gd" id="5_13st0"]
 [ext_resource type="Script" path="res://scripts/utility_ai/considerations/ai_idle.gd" id="5_ryhkn"]
+[ext_resource type="Script" path="res://scripts/utility_ai/considerations/ai_eat_food.gd" id="7_lldso"]
+[ext_resource type="Script" path="res://scripts/utility_ai/considerations/ai_find.gd" id="8_6spjp"]
 [ext_resource type="PackedScene" uid="uid://b34ypqren5krx" path="res://scenes/components/interactor_component.tscn" id="8_wgcei"]
+[ext_resource type="Script" path="res://scripts/utility_ai/considerations/ai_pickup_food.gd" id="9_ybsjr"]
+[ext_resource type="PackedScene" uid="uid://c7746pmtfhu71" path="res://scenes/components/grabber_component.tscn" id="11_ggtbr"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_01pmt"]
 resource_local_to_scene = true
@@ -29,12 +33,21 @@ point_count = 1
 _data = [Vector2(0, 0), 0.0, 1.4, 0, 0, Vector2(0.5, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 3
 
+[sub_resource type="Curve" id="Curve_vbedw"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.6, 0.05), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_txtvb"]
+_data = [Vector2(0, 1), 0.0, -0.999, 0, 1, Vector2(1, 0.001), -0.999, 0.0, 1, 0]
+point_count = 2
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_xtq4j"]
 radius = 0.728524
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vkhw8"]
+size = Vector3(1, 1, 1.42578)
 
-[node name="Buddy" type="CharacterBody3D" node_paths=PackedStringArray("utility_agent", "state_text") groups=["Buddy"]]
+[node name="Buddy" type="CharacterBody3D" node_paths=PackedStringArray("utility_agent", "state_text", "interactor_component", "grabber_component") groups=["Buddy"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0165722, 0.542971, 0)
 collision_layer = 2
 collision_mask = 7
@@ -42,6 +55,8 @@ script = ExtResource("1_jecxs")
 stats = ExtResource("2_kbf7g")
 utility_agent = NodePath("UtilityAgent")
 state_text = NodePath("StateText")
+interactor_component = NodePath("InteractorComponent")
+grabber_component = NodePath("Grabber")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 material_override = SubResource("StandardMaterial3D_01pmt")
@@ -56,6 +71,7 @@ shape = SubResource("SphereShape3D_0848a")
 
 [node name="StateText" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.723019, 0)
+billboard = 1
 text = "State: "
 
 [node name="UtilityAgent" type="Node" parent="." node_paths=PackedStringArray("buddy", "score_update_timer")]
@@ -79,24 +95,42 @@ text = "Stats:"
 
 [node name="Sleep" type="Node" parent="UtilityAgent"]
 script = ExtResource("4_strd4")
-must_complete = true
 stat = 5
-category = 10
 score_curve = SubResource("Curve_r8mr2")
+must_complete = true
+category = 10
 
 [node name="Idle" type="Node" parent="UtilityAgent"]
 script = ExtResource("5_ryhkn")
 stat = 4
-category = 1
 score_curve = SubResource("Curve_opmcm")
+category = 1
 
 [node name="Wander" type="Node" parent="UtilityAgent"]
 script = ExtResource("5_13st0")
 stat = 5
-category = 1
 score_curve = SubResource("Curve_r4bnj")
+category = 1
 
-[node name="Hunger" type="Node" parent="UtilityAgent"]
+[node name="EatFood" type="Node" parent="UtilityAgent"]
+script = ExtResource("7_lldso")
+operation = 1
+must_complete = true
+category = 3
+
+[node name="FindFood" type="Node" parent="UtilityAgent/EatFood"]
+script = ExtResource("8_6spjp")
+target_group = "Food"
+max_range = 30.0
+stat = 5
+score_curve = SubResource("Curve_vbedw")
+category = 2
+
+[node name="PickupFood" type="Node" parent="UtilityAgent/EatFood" node_paths=PackedStringArray("target_finder")]
+script = ExtResource("9_ybsjr")
+target_finder = NodePath("../FindFood")
+score_curve = SubResource("Curve_txtvb")
+category = 2
 
 [node name="InteractableComponent" parent="." instance=ExtResource("5_0nmuo")]
 hint_text = "Pet the boi"
@@ -107,10 +141,22 @@ shape = SubResource("SphereShape3D_xtq4j")
 
 [node name="InteractorComponent" parent="." instance=ExtResource("8_wgcei")]
 
+[node name="Area3D" parent="InteractorComponent" index="0"]
+collision_layer = 0
+
 [node name="CollisionShape3D" parent="InteractorComponent/Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.51034)
 shape = SubResource("BoxShape3D_vkhw8")
 
+[node name="Grabber" parent="." instance=ExtResource("11_ggtbr")]
+
+[node name="HoldPosition" parent="Grabber" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.181047, -0.728976)
+
 [connection signal="timeout" from="UtilityAgent/ScoreUpdateTimer" to="UtilityAgent" method="_on_score_update_timer_timeout"]
+[connection signal="dropped" from="Grabber" to="InteractorComponent" method="interactable_dropped"]
+[connection signal="grabbed" from="Grabber" to="InteractorComponent" method="interactable_grabbed"]
 
 [editable path="InteractableComponent"]
 [editable path="InteractorComponent"]
+[editable path="Grabber"]
