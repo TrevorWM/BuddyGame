@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" path="res://scripts/components/buddy_interactor_component.gd" id="1_llrue"]
 
-[node name="BuddyInteractorComponent" type="Node3D" node_paths=PackedStringArray("raycast")]
+[node name="BuddyInteractorComponent" type="Node3D" node_paths=PackedStringArray("interact_area")]
 script = ExtResource("1_llrue")
-raycast = NodePath("RayCast3D")
+interact_area = NodePath("Area3D")
 
-[node name="RayCast3D" type="RayCast3D" parent="."]
-enabled = false
-target_position = Vector3(0, 0, 1)
+[node name="Area3D" type="Area3D" parent="."]
 collision_mask = 32
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]

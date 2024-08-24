@@ -29,7 +29,6 @@ func drop_food(instigator: InteractorComponent) -> void:
 		return
 	is_picked_up = false
 	print(instigator.owner.name + " is dropping food")
+	interactable_component.show()
 	grabber.drop_object()
 	self.freeze = false
-	
-	interactable_component.show()

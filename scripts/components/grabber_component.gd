@@ -6,20 +6,20 @@ extends Node3D
 
 var is_grabbing: bool = false
 var current_object: Node3D
-
-signal grabbed
-signal dropped
+var current_interactable: InteractableComponent
 
 func _physics_process(_delta):
-	if is_grabbing and current_object != null:
+	if is_grabbing and current_interactable != null:
 		current_object.transform.origin = hold_position.global_position
+
 
 func grab_object(object: Node3D) -> void:
 	current_object = object
+	current_interactable = object.get_node("InteractableComponent")
 	is_grabbing = true
-	grabbed.emit()
+
 
 func drop_object() -> void:
 	is_grabbing = false
 	current_object = null
-	dropped.emit()
+	current_interactable = null

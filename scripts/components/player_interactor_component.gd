@@ -5,24 +5,29 @@ extends InteractorComponent
 @export var interact_area: Area3D
 
 var current_interactable: InteractableComponent = null
-var object_grabbed: bool = false
+var grabber_component: GrabberComponent
 var camera: Camera3D
 
 func _ready():
 	camera = get_viewport().get_camera_3d()
 
 func interact() -> void:
+	if interact_with_grabbed(grabber_component):
+		return
+		
 	if current_interactable != null:
 		current_interactable.activate(self)
 	else:
 		print("No valid interactable available")
 		
-func interact_with_grabbed(grabber: GrabberComponent) -> void:
-	if grabber:
-		grabber.current_object.interactable_component.activate(self)
+func interact_with_grabbed(grabber: GrabberComponent) -> bool:
+	if grabber and grabber.current_interactable != null:
+		grabber.current_interactable.activate(self)
 		current_interactable = null
+		return true
 	else:
 		print("GrabberComponent not found on " + owner.name)
+	return false
 
 func _on_area_3d_area_entered(area):
 	if area.owner is InteractableComponent:
@@ -60,20 +65,8 @@ func get_camera_target() -> InteractableComponent:
 
 
 func _on_update_timer_timeout():
-	if object_grabbed:
-		return
-
-	if current_interactable:
-		current_interactable.hide_hint_text()
-
 	current_interactable = get_camera_target()
 	
 	if current_interactable != null:
 		current_interactable.show_hint_text(self)
 		update_timer.start()
-
-func interactable_grabbed() -> void:
-	object_grabbed = true
-
-func interactable_dropped() -> void:
-	object_grabbed = false

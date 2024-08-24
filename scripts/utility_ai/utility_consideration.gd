@@ -12,6 +12,11 @@ func get_score() -> float:
 	return (score_curve.sample_baked(curve_x) * float(category))
 
 func update_curve_x() -> void:
+	if requires_target:
+		get_targets()
+		curve_x = float(target_list.size() < 1)
+		return
+		
 	var value: float = 0.0
 	match stat:
 		Globals.STAT.MUSCLE:

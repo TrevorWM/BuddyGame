@@ -2,18 +2,19 @@ class_name BuddyInteractorComponent
 extends InteractorComponent
 
 @export var buddy: Buddy
-@export var raycast: RayCast3D
+@export var interact_area: Area3D
 
 var target_node: Node3D
 var current_interactable = null
 
 func interact() -> void:
-	raycast.force_raycast_update()
-	
-	if raycast.is_colliding():
-		var interactable: InteractableComponent = raycast.get_collider().owner
-		interactable.activate(self)
-		current_interactable = interactable
+	if interact_area.has_overlapping_areas():
+		var interactable_list = interact_area.get_overlapping_areas()
+		for area in interactable_list:
+			if area.owner is InteractableComponent:
+				area.owner.activate(self)
+				current_interactable = area.owner
+				return
 	
 func interact_with_grabbed(grabber: GrabberComponent) -> void:
 	if grabber:

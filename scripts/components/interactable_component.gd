@@ -37,6 +37,7 @@ func show_hint_text(instigator: InteractorComponent) -> void:
 		printerr("No hint text label to show on " + owner.name)
 		return
 	
+	text_label.text = hint_text
 	text_label.visible = true
 	
 func hide_hint_text() -> void:

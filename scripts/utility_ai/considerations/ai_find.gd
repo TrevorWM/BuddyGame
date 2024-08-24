@@ -1,7 +1,6 @@
 class_name AIFind
 extends UtilityConsideration
 
-@export var target_group: String
 @export var max_range: float = 10.0
 
 var nearest_target: Node3D
@@ -15,15 +14,9 @@ func activate_behaviour(buddy: Buddy) -> void:
 	target_reached = false
 	buddy.state_text.text = "FINDING FOOD"
 	
-	var targets = get_tree().get_nodes_in_group(target_group)
-
-	if targets.size() < 1:
-		print(owner.name + " did not find any valid targets from " + target_group + " group in tree")
-		return
-		
 	nearest_distance = max_range
 	
-	for target in targets:
+	for target in target_list:
 		var current_distance = target.global_position.distance_to(buddy.global_position)
 		
 		if current_distance < nearest_distance:
