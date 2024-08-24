@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://cc7assuoxjhwv"]
 
-[ext_resource type="Script" path="res://scripts/components/interactable_component.gd" id="1_uevti"]
+[ext_resource type="Script" path="res://scripts/components/interactable_component.gd" id="1_2nsjr"]
 
 [node name="InteractableComponent" type="Node3D" node_paths=PackedStringArray("text_label", "cooldown_timer")]
-script = ExtResource("1_uevti")
+script = ExtResource("1_2nsjr")
 text_label = NodePath("InteractLabel")
 cooldown_timer = NodePath("InteractCooldown")
 
@@ -21,5 +21,3 @@ billboard = 1
 text = "Interact"
 
 [connection signal="timeout" from="InteractCooldown" to="." method="_on_interact_cooldown_timeout"]
-[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
-[connection signal="area_exited" from="Area3D" to="." method="_on_area_3d_area_exited"]

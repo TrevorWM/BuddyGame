@@ -23,4 +23,3 @@ func drop_object() -> void:
 	is_grabbing = false
 	current_object = null
 	dropped.emit()
-	

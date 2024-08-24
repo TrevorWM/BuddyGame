@@ -113,3 +113,9 @@ stats = SubResource("Resource_456cj")
 
 [node name="Food" parent="." instance=ExtResource("4_dgxo0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.583, 1.08569, 4.696)
+
+[editable path="Player"]
+[editable path="Player/PlayerInteractorComponent"]
+[editable path="Player/Grabber"]
+[editable path="Food"]
+[editable path="Food/InteractableComponent"]

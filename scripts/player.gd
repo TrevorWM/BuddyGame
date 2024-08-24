@@ -12,6 +12,8 @@ const JUMP_VELOCITY = 4.5
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	grabber_component.grabbed.connect(interactor_component.interactable_grabbed)
+	grabber_component.dropped.connect(interactor_component.interactable_dropped)
 
 func _process(_delta):
 	handle_mouse_mode()

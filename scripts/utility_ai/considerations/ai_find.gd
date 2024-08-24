@@ -4,17 +4,16 @@ extends UtilityConsideration
 @export var target_group: String
 @export var max_range: float = 10.0
 
-var nearest_target
+var nearest_target: Node3D
 var nearest_distance: float = 0
 var target_reached = false
+
+#TODO: Find a way to nullify this behaviour if there are no targets
 
 func activate_behaviour(buddy: Buddy) -> void:
 	is_complete = false
 	target_reached = false
 	buddy.state_text.text = "FINDING FOOD"
-	
-	if not buddy.navigation_agent.is_navigation_finished():
-		return	
 	
 	var targets = get_tree().get_nodes_in_group(target_group)
 
@@ -33,7 +32,7 @@ func activate_behaviour(buddy: Buddy) -> void:
 
 	if nearest_target != null:
 		buddy.set_movement_target(nearest_target.global_position)
-		if buddy.navigation_agent.is_navigation_finished():
+		if buddy.navigation_agent.distance_to_target() < 2:
 			target_reached = true
 			is_complete = true
 	else:

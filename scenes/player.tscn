@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_yuymn"]
 [ext_resource type="Script" path="res://scripts/follow_camera_controller.gd" id="2_6n667"]
-[ext_resource type="PackedScene" uid="uid://b34ypqren5krx" path="res://scenes/components/interactor_component.tscn" id="3_yedpf"]
 [ext_resource type="PackedScene" uid="uid://c7746pmtfhu71" path="res://scenes/components/grabber_component.tscn" id="4_n8baa"]
+[ext_resource type="PackedScene" uid="uid://667jlo03l2hl" path="res://scenes/components/player_interactor_component.tscn" id="4_qvyrn"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xxlo6"]
 
@@ -14,8 +14,9 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hrtr0"]
 albedo_color = Color(1, 0.156863, 0.14902, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_vbrkb"]
-size = Vector3(3, 1.6, 3)
+[sub_resource type="BoxShape3D" id="BoxShape3D_vivoj"]
+margin = 0.0
+size = Vector3(2, 1, 2.5)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_immcn"]
 
@@ -23,7 +24,7 @@ size = Vector3(3, 1.6, 3)
 collision_mask = 5
 script = ExtResource("1_yuymn")
 follow_camera_controller = NodePath("FollowCameraController")
-interactor_component = NodePath("InteractorComponent")
+interactor_component = NodePath("PlayerInteractorComponent")
 grabber_component = NodePath("Grabber")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -55,11 +56,14 @@ spring_length = 5.0
 transform = Transform3D(1, 0, 0, 0, 0.987906, -0.155055, 0, 0.155055, 0.987906, 0, -1, 5)
 current = true
 
-[node name="InteractorComponent" parent="." groups=["Player"] instance=ExtResource("3_yedpf")]
+[node name="PlayerInteractorComponent" parent="." instance=ExtResource("4_qvyrn")]
 
-[node name="CollisionShape3D" parent="InteractorComponent/Area3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
-shape = SubResource("BoxShape3D_vbrkb")
+[node name="Area3D" parent="PlayerInteractorComponent" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00915706)
+
+[node name="CollisionShape3D" parent="PlayerInteractorComponent/Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0127599, 0.00726414, -0.17346)
+shape = SubResource("BoxShape3D_vivoj")
 
 [node name="Grabber" parent="." instance=ExtResource("4_n8baa")]
 
@@ -90,8 +94,5 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("CanvasTexture_immcn")
 
-[connection signal="dropped" from="Grabber" to="InteractorComponent" method="interactable_dropped"]
-[connection signal="grabbed" from="Grabber" to="InteractorComponent" method="interactable_grabbed"]
-
-[editable path="InteractorComponent"]
+[editable path="PlayerInteractorComponent"]
 [editable path="Grabber"]

@@ -7,7 +7,6 @@ extends Node3D
 @export var cooldown_timer: Timer
 
 var can_activate: bool = true
-var is_held: bool = false
 var interactor: InteractorComponent = null
 
 signal activated(instigator: InteractorComponent)
@@ -17,17 +16,18 @@ func _ready():
 	text_label.text = hint_text
 	text_label.visible = false
 
-func activate(instigator: InteractorComponent):
+func activate(instigator: InteractorComponent) -> bool:
 	if not can_activate:
-		return
+		return false
 	
-	is_held = true
 	can_activate = false
+	
 	print(instigator.owner.name + " activated: " + owner.name)
 	text_label.text = interacted_text
+	interactor = instigator
 	activated.emit(instigator)
 	can_activate = true
-	cooldown_timer.start()
+	return true
 
 
 func show_hint_text(instigator: InteractorComponent) -> void:
@@ -47,12 +47,3 @@ func hide_hint_text() -> void:
 		return
 	
 	text_label.visible = false
-
-
-func _on_interact_cooldown_timeout():
-	if not text_label:
-		printerr("No text label when interact cooldown expired on " + owner.name)
-		return
-		
-	text_label.text = hint_text
-	

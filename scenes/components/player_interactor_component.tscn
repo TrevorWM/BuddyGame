@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://667jlo03l2hl"]
+
+[ext_resource type="Script" path="res://scripts/components/player_interactor_component.gd" id="1_r6gpc"]
+
+[node name="PlayerInteractorComponent" type="Node3D" node_paths=PackedStringArray("update_timer", "interact_area")]
+script = ExtResource("1_r6gpc")
+update_timer = NodePath("UpdateTimer")
+interact_area = NodePath("Area3D")
+
+[node name="UpdateTimer" type="Timer" parent="."]
+wait_time = 0.3
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+
+[connection signal="timeout" from="UpdateTimer" to="." method="_on_update_timer_timeout"]
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
+[connection signal="area_exited" from="Area3D" to="." method="_on_area_3d_area_exited"]

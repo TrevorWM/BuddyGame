@@ -18,4 +18,5 @@ func activate_behaviour(buddy: Buddy) -> void:
 		is_complete = true
 	
 	if is_complete:
-		buddy.use_interactor(find_food.target_group)
+		buddy.use_interactor(find_food.nearest_target)
+		find_food.nearest_target.queue_free()

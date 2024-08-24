@@ -51,8 +51,8 @@ func get_random_nearby_position() -> Vector3:
 				0, 
 				randf_range(-wander_radius, wander_radius))
 
-func use_interactor(group: String) -> void:
-	interactor_component.set_target_group(group)
+func use_interactor(target: Node3D) -> void:
+	interactor_component.set_target(target)
 	
 	if grabber_component.is_grabbing:
 		interactor_component.interact_with_grabbed(grabber_component)

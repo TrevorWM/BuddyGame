@@ -6,7 +6,7 @@ extends UtilityConsideration
 func activate_behaviour(buddy: Buddy) -> void:
 	is_complete = false
 	buddy.state_text.text = "PICKING UP FOOD"
-	buddy.use_interactor(target_finder.target_group)
+	buddy.use_interactor(target_finder.nearest_target)
 	
 	if buddy.grabber_component.is_grabbing:
 		is_complete = true

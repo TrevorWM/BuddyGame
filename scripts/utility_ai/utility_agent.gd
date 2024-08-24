@@ -40,10 +40,15 @@ func _on_score_update_timer_timeout():
 func get_top_score() -> String:
 	return scores.find_key(scores.values().max())
 
-func get_random_top_score_in_range(max_index_range:int = 1) -> String:
+func get_random_top_score_in_range(deviation: float) -> String:
 	var sorted_scores = scores.values()
 	sorted_scores.sort_custom(sort_descending)
-	return scores.find_key(sorted_scores[randi_range(0, max_index_range)])
+	var score_min: float = sorted_scores[0] - deviation
+	var max_index: int = 0
+	for index in range(sorted_scores.size()):
+		if sorted_scores[index] > score_min:
+			max_index = index
+	return scores.find_key(sorted_scores[randi_range(0,max_index)])
 
 func sort_descending(a, b):
 	if a > b:
@@ -56,6 +61,6 @@ func use_top_score_behaviour() -> void:
 			current_action.activate_behaviour(buddy)
 			return
 		
-	var utility_action: AIAction = get_node(get_random_top_score_in_range(2))
+	var utility_action: AIAction = get_node(get_random_top_score_in_range(0.15))
 	current_action = utility_action
 	current_action.activate_behaviour(buddy)
