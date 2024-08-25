@@ -7,7 +7,7 @@ extends Node
 signal scores_updated
 
 var scores: Dictionary
-var current_action: AIAction
+var current_action: UtilityAction
 
 enum CATEGORY{
 	DEFAULT = 1,
@@ -27,7 +27,7 @@ func _ready():
 	
 func update_scores() -> void:
 	for child in get_children():
-		if child is UtilityConsideration or child is UtilityAggregator:
+		if child is UtilityAction:
 			scores[child.name] = child.get_score()
 
 func _on_score_update_timer_timeout():
@@ -61,6 +61,6 @@ func use_top_score_behaviour() -> void:
 			current_action.activate_behaviour(buddy)
 			return
 		
-	var utility_action: AIAction = get_node(get_random_top_score_in_range(0.15))
+	var utility_action: UtilityAction = get_node(get_random_top_score_in_range(0.15))
 	current_action = utility_action
-	current_action.activate_behaviour(buddy)
+	current_action.perform_action(buddy)
