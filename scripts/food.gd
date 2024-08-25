@@ -13,6 +13,9 @@ func _on_interactable_component_activated(instigator: InteractorComponent):
 		pick_up_food(instigator)
 
 func pick_up_food(instigator: InteractorComponent) -> void:
+	if is_picked_up:
+		return
+		
 	if not instigator.owner.has_node("Grabber"):
 		printerr(instigator.owner.name + " does not have GrabberComponent")
 		return
@@ -25,8 +28,9 @@ func pick_up_food(instigator: InteractorComponent) -> void:
 	
 
 func drop_food(instigator: InteractorComponent) -> void:
-	if instigator.current_interactable == self:
+	if instigator.current_interactable != self.interactable_component:
 		return
+		
 	is_picked_up = false
 	print(instigator.owner.name + " is dropping food")
 	interactable_component.show()

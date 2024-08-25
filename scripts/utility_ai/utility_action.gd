@@ -2,11 +2,10 @@ class_name UtilityAction
 extends Node
 
 @export_group("Action Options")
-@export var category: UtilityAgent.CATEGORY
+@export var category: UtilityAgent.CATEGORY = UtilityAgent.CATEGORY.DEFAULT
 @export var must_complete: bool
 
 @export_group("Targeting Options")
-@export var requires_target: bool
 @export var target_group: String
 
 var is_complete: bool = false
@@ -22,4 +21,4 @@ func get_action_score() -> float:
 	
 	if child is UtilityConsideration or child is UtilityAggregator:
 			action_score = child.get_score()
-	return action_score
+	return action_score * float(category)

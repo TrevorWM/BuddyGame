@@ -1,18 +1,15 @@
-[gd_scene load_steps=30 format=3 uid="uid://cs7ufcprscwtt"]
+[gd_scene load_steps=22 format=3 uid="uid://cs7ufcprscwtt"]
 
 [ext_resource type="Script" path="res://scripts/buddy.gd" id="1_jecxs"]
 [ext_resource type="Resource" uid="uid://b0o4rl00u0x23" path="res://assets/resources/sloth_buddy.tres" id="2_kbf7g"]
 [ext_resource type="Script" path="res://scripts/utility_ai/utility_agent.gd" id="2_kjxmh"]
 [ext_resource type="PackedScene" uid="uid://cc7assuoxjhwv" path="res://scenes/components/interactable_component.tscn" id="5_0nmuo"]
 [ext_resource type="Script" path="res://scripts/utility_ai/utility_aggregator.gd" id="5_m3ixm"]
-[ext_resource type="Script" path="res://scripts/utility_ai/considerations/stat_consideration.gd" id="5_roxhj"]
+[ext_resource type="Script" path="res://scripts/utility_ai/stat_consideration.gd" id="5_roxhj"]
+[ext_resource type="Script" path="res://scripts/utility_ai/utility_action.gd" id="6_helxe"]
 [ext_resource type="Script" path="res://scripts/utility_ai/actions/action_idle.gd" id="7_5g5k2"]
 [ext_resource type="Script" path="res://scenes/action_sleep.gd" id="8_lt6a3"]
-[ext_resource type="Script" path="res://scripts/utility_ai/actions/action_find.gd" id="9_pj1pu"]
-[ext_resource type="Script" path="res://scripts/utility_ai/considerations/holding_consideration.gd" id="10_b15u2"]
-[ext_resource type="Script" path="res://scripts/utility_ai/considerations/target_consideration.gd" id="11_1b6un"]
 [ext_resource type="PackedScene" uid="uid://c7746pmtfhu71" path="res://scenes/components/grabber_component.tscn" id="11_ggtbr"]
-[ext_resource type="Script" path="res://scripts/utility_ai/actions/action_eat.gd" id="12_0s7l0"]
 [ext_resource type="PackedScene" uid="uid://cwlout84uhhks" path="res://scenes/components/buddy_interactor_component.tscn" id="12_2ydgd"]
 [ext_resource type="Script" path="res://scripts/utility_ai/actions/action_wander.gd" id="13_swp3t"]
 
@@ -40,26 +37,6 @@ point_count = 1
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_uhjmg"]
-_data = [Vector2(0, 0.7), 0.0, 0.0, 0, 0, Vector2(0.1, 0.1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="Curve" id="Curve_ib6yj"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_uf1di"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_madfp"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_0w4wr"]
-_data = [Vector2(0, 0.7), 0.0, -0.0426921, 0, 0, Vector2(0.1, 0.1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_xtq4j"]
 radius = 0.728524
 
@@ -82,7 +59,6 @@ material_override = SubResource("StandardMaterial3D_01pmt")
 mesh = SubResource("SphereMesh_0n2x8")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-target_desired_distance = 3.0
 avoidance_enabled = true
 radius = 1.25
 
@@ -120,25 +96,25 @@ script = ExtResource("13_swp3t")
 script = ExtResource("5_m3ixm")
 operation = 1
 
-[node name="EnergyConsideration" type="Node" parent="UtilityAgent/Wander/UtilityAggregator" node_paths=PackedStringArray("buddy")]
+[node name="EnergyConsideration" type="Node" parent="UtilityAgent/Wander/UtilityAggregator"]
 script = ExtResource("5_roxhj")
+category = null
 stat = 5
-buddy = NodePath("../../../..")
 score_curve = SubResource("Curve_ayj37")
 
-[node name="ZoomConsideration" type="Node" parent="UtilityAgent/Wander/UtilityAggregator" node_paths=PackedStringArray("buddy")]
+[node name="ZoomConsideration" type="Node" parent="UtilityAgent/Wander/UtilityAggregator"]
 script = ExtResource("5_roxhj")
+category = null
 stat = 4
-buddy = NodePath("../../../..")
 score_curve = SubResource("Curve_r84g8")
 
 [node name="Idle" type="Node" parent="UtilityAgent"]
 script = ExtResource("7_5g5k2")
 
-[node name="EnergyConsideration" type="Node" parent="UtilityAgent/Idle" node_paths=PackedStringArray("buddy")]
+[node name="EnergyConsideration" type="Node" parent="UtilityAgent/Idle"]
 script = ExtResource("5_roxhj")
+category = null
 stat = 5
-buddy = NodePath("../../..")
 score_curve = SubResource("Curve_fim33")
 
 [node name="Sleep" type="Node" parent="UtilityAgent"]
@@ -146,61 +122,26 @@ script = ExtResource("8_lt6a3")
 category = 3
 must_complete = true
 
-[node name="EnergyConsideration" type="Node" parent="UtilityAgent/Sleep" node_paths=PackedStringArray("buddy")]
+[node name="EnergyConsideration" type="Node" parent="UtilityAgent/Sleep"]
 script = ExtResource("5_roxhj")
+category = null
 stat = 5
-buddy = NodePath("../../..")
 score_curve = SubResource("Curve_4ynr7")
 
 [node name="FindFood" type="Node" parent="UtilityAgent"]
-script = ExtResource("9_pj1pu")
+script = ExtResource("6_helxe")
 category = 2
-must_complete = true
+requires_target = true
 target_group = "Food"
 
 [node name="UtilityAggregator" type="Node" parent="UtilityAgent/FindFood"]
 script = ExtResource("5_m3ixm")
 operation = 1
 
-[node name="HungerConsideration" type="Node" parent="UtilityAgent/FindFood/UtilityAggregator" node_paths=PackedStringArray("buddy")]
+[node name="UtilityConsideration" type="Node" parent="UtilityAgent/FindFood/UtilityAggregator"]
 script = ExtResource("5_roxhj")
-stat = 8
-buddy = NodePath("../../../..")
-score_curve = SubResource("Curve_uhjmg")
-
-[node name="HoldFoodConsideration" type="Node" parent="UtilityAgent/FindFood/UtilityAggregator" node_paths=PackedStringArray("buddy")]
-script = ExtResource("10_b15u2")
-target_group = "Food"
-buddy = NodePath("../../../..")
-score_curve = SubResource("Curve_ib6yj")
-
-[node name="TargetConsideration" type="Node" parent="UtilityAgent/FindFood/UtilityAggregator" node_paths=PackedStringArray("action", "buddy")]
-script = ExtResource("11_1b6un")
-action = NodePath("../..")
-buddy = NodePath("../../../..")
-score_curve = SubResource("Curve_uf1di")
-
-[node name="Eat" type="Node" parent="UtilityAgent"]
-script = ExtResource("12_0s7l0")
-category = 3
-must_complete = true
-target_group = "Food"
-
-[node name="UtilityAggregator" type="Node" parent="UtilityAgent/Eat"]
-script = ExtResource("5_m3ixm")
-operation = 3
-
-[node name="HoldingFood" type="Node" parent="UtilityAgent/Eat/UtilityAggregator" node_paths=PackedStringArray("buddy")]
-script = ExtResource("10_b15u2")
-target_group = "Food"
-buddy = NodePath("../../../..")
-score_curve = SubResource("Curve_madfp")
-
-[node name="Hunger" type="Node" parent="UtilityAgent/Eat/UtilityAggregator" node_paths=PackedStringArray("buddy")]
-script = ExtResource("5_roxhj")
-stat = 8
-buddy = NodePath("../../../..")
-score_curve = SubResource("Curve_0w4wr")
+category = null
+stat = null
 
 [node name="InteractableComponent" parent="." instance=ExtResource("5_0nmuo")]
 hint_text = "Pet the boi"

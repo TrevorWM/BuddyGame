@@ -1,6 +1,7 @@
 class_name BuddyStatsResource
 extends Resource
 
+@export var buddy_name: String
 @export_category("Player Facing Stats")
 @export var max_muscle: int
 @export var muscle: int:
@@ -51,3 +52,10 @@ extends Resource
 		return boredom
 	set(value):
 		boredom = clampi(value, 0, max_boredom)
+
+@export var max_hunger: int
+@export var hunger: int:
+	get:
+		return hunger
+	set(value):
+		hunger = clampi(value, 0, max_hunger)

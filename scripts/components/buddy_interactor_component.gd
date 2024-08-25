@@ -17,6 +17,7 @@ func interact() -> void:
 				return
 	
 func interact_with_grabbed(grabber: GrabberComponent) -> void:
+	print("Grabber interact")
 	if grabber:
 		grabber.current_object.interactable_component.activate(self)
 		current_interactable = null

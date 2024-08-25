@@ -1,10 +1,9 @@
 class_name UtilityAggregator
-extends AIAction
+extends Node
 
 @export var operation: UtilityAggregator.OPERATION
 
 var children_scores: Array
-var stats: BuddyStatsResource
 
 enum OPERATION {
 	SUM,
@@ -14,19 +13,14 @@ enum OPERATION {
 	AVERAGE,
 }
 
-func propagate_stats() -> void:
-	for child in get_children():
-		if child is UtilityConsideration:
-			child.stats = stats
-
 func combine_scores(scores: Array) -> float:
-	var value: float = 0
+	var value: float = 0.0
 	match operation:
 		UtilityAggregator.OPERATION.SUM:
 			for score in scores:
 				value += score
 		UtilityAggregator.OPERATION.MULTIPLY:
-			value = 1
+			value = 1.0
 			for score in scores:
 				value *= score
 		UtilityAggregator.OPERATION.MAX:
@@ -39,7 +33,6 @@ func combine_scores(scores: Array) -> float:
 			value = value/float(scores.size())
 		_:
 			printerr("No valid operation chosen for " + name)
-	
 	return value
 
 func get_score() -> float:
@@ -56,5 +49,5 @@ func get_score() -> float:
 	return score
 
 
-func print_aggregates()->void:
+func print_aggregates() -> void:
 	print(children_scores)

@@ -8,6 +8,7 @@ signal scores_updated
 
 var scores: Dictionary
 var current_action: UtilityAction
+var stats: BuddyStatsResource
 
 enum CATEGORY{
 	DEFAULT = 1,
@@ -17,25 +18,18 @@ enum CATEGORY{
 
 func _ready():
 	await owner.ready
-	for child in get_children():
-		if child is UtilityConsideration or child is UtilityAggregator:
-			child.stats = buddy.stats
-			if child is UtilityAggregator:
-				child.propagate_stats()
-			scores[child.name] = child.get_score()
 	score_update_timer.start()
 	
 func update_scores() -> void:
 	for child in get_children():
 		if child is UtilityAction:
-			scores[child.name] = child.get_score()
+			scores[child.name] = child.get_action_score()
 
 func _on_score_update_timer_timeout():
 	update_scores()
-	print(scores)
 	use_top_score_behaviour()
-	var stat_string :String = "State %s\nEnergy: %s (%s/%s)"
-	$Control/Label.text = stat_string % [current_action.name,(float(buddy.stats.energy)/float(buddy.stats.max_energy)), str(buddy.stats.energy),str(buddy.stats.max_energy)]
+	var stat_string :String = "State %s\n%s"
+	$Control/Label.text = stat_string % [current_action.name,scores]
 	
 func get_top_score() -> String:
 	return scores.find_key(scores.values().max())
@@ -58,9 +52,9 @@ func sort_descending(a, b):
 func use_top_score_behaviour() -> void:
 	if current_action:
 		if current_action.must_complete and not current_action.is_complete:
-			current_action.activate_behaviour(buddy)
+			current_action.perform_action(buddy)
 			return
 		
-	var utility_action: UtilityAction = get_node(get_random_top_score_in_range(0.15))
+	var utility_action: UtilityAction = get_node(get_random_top_score_in_range(0.2))
 	current_action = utility_action
 	current_action.perform_action(buddy)

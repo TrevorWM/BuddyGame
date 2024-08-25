@@ -4,7 +4,6 @@ extends Node3D
 @export var hint_text: String
 @export var interacted_text: String
 @export var text_label: Label3D
-@export var cooldown_timer: Timer
 
 var can_activate: bool = true
 var interactor: InteractorComponent = null

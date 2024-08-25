@@ -35,9 +35,10 @@ albedo_color = Color(1, 0.533333, 1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_u4lsl"]
 
-[sub_resource type="Resource" id="Resource_456cj"]
+[sub_resource type="Resource" id="Resource_orxey"]
 resource_local_to_scene = true
 script = ExtResource("3_kwk1o")
+buddy_name = "Sloth"
 max_muscle = 5
 muscle = 2
 max_brains = 5
@@ -52,6 +53,8 @@ max_affection = 100
 affection = 100
 max_boredom = 100
 boredom = 100
+max_hunger = 100
+hunger = 100
 
 [node name="World" type="Node3D"]
 
@@ -109,10 +112,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.53638, 12.5073)
 collision_mask = 6
 
 [node name="Buddy" parent="." instance=ExtResource("2_rrblp")]
-stats = SubResource("Resource_456cj")
+stats = SubResource("Resource_orxey")
 
 [node name="Food" parent="." instance=ExtResource("4_dgxo0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.583, 1.08569, 4.696)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.34056, 1.08569, 4.696)
 
 [editable path="Player"]
 [editable path="Player/PlayerInteractorComponent"]

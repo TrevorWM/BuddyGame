@@ -9,4 +9,5 @@ enum STAT {
 	ENERGY,
 	BOREDOM,
 	AFFECTION,
+	HUNGER,
 }

@@ -5,6 +5,7 @@
 [resource]
 resource_local_to_scene = true
 script = ExtResource("1_y0wom")
+buddy_name = "Sloth"
 max_muscle = 5
 muscle = 2
 max_brains = 5
@@ -19,3 +20,5 @@ max_affection = 100
 affection = 100
 max_boredom = 100
 boredom = 100
+max_hunger = 100
+hunger = 100

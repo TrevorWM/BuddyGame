@@ -25,8 +25,7 @@ func interact_with_grabbed(grabber: GrabberComponent) -> bool:
 		grabber.current_interactable.activate(self)
 		current_interactable = null
 		return true
-	else:
-		print("GrabberComponent not found on " + owner.name)
+
 	return false
 
 func _on_area_3d_area_entered(area):

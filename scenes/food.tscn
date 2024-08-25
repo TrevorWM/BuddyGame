@@ -25,14 +25,14 @@ shape = SubResource("CapsuleShape3D_f1cs3")
 [node name="InteractableComponent" parent="." instance=ExtResource("1_k8kur")]
 hint_text = "Pick up Energy Fruit"
 
-[node name="Area3D" parent="InteractableComponent" index="1" groups=["Food"]]
+[node name="Area3D" parent="InteractableComponent" index="0" groups=["Food"]]
 collision_layer = 48
 collision_mask = 48
 
 [node name="CollisionShape3D" parent="InteractableComponent/Area3D" index="0" groups=["Food"]]
 shape = SubResource("BoxShape3D_p18ya")
 
-[node name="InteractLabel" parent="InteractableComponent" index="2"]
+[node name="InteractLabel" parent="InteractableComponent" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
 
 [node name="EnergyFruitModel" parent="." instance=ExtResource("3_wfimo")]

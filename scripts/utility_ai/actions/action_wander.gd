@@ -7,3 +7,4 @@ func perform_action(buddy: Buddy) -> void:
 	
 	buddy.state_text.text = "WANDER"
 	buddy.stats.energy -= 1
+	buddy.stats.hunger -= 5
