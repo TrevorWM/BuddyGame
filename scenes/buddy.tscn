@@ -57,7 +57,7 @@ _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="Curve" id="Curve_0w4wr"]
-_data = [Vector2(0, 0.7), 0.0, -0.0426921, 0, 0, Vector2(0.1, 0.1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0.8), 0.0, -0.0426921, 0, 0, Vector2(0.25, 0.1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_xtq4j"]
@@ -82,9 +82,9 @@ material_override = SubResource("StandardMaterial3D_01pmt")
 mesh = SubResource("SphereMesh_0n2x8")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-target_desired_distance = 3.0
 avoidance_enabled = true
-radius = 1.25
+radius = 1.0
+max_speed = 100.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_0848a")
@@ -98,6 +98,8 @@ text = "State: "
 script = ExtResource("2_kjxmh")
 buddy = NodePath("..")
 score_update_timer = NodePath("ScoreUpdateTimer")
+show_debug = true
+top_score_random_threshold = 0.2
 
 [node name="Control" type="Control" parent="UtilityAgent"]
 layout_mode = 3
@@ -118,7 +120,6 @@ script = ExtResource("13_swp3t")
 
 [node name="UtilityAggregator" type="Node" parent="UtilityAgent/Wander"]
 script = ExtResource("5_m3ixm")
-operation = 1
 
 [node name="EnergyConsideration" type="Node" parent="UtilityAgent/Wander/UtilityAggregator" node_paths=PackedStringArray("buddy")]
 script = ExtResource("5_roxhj")
@@ -155,12 +156,10 @@ score_curve = SubResource("Curve_4ynr7")
 [node name="FindFood" type="Node" parent="UtilityAgent"]
 script = ExtResource("9_pj1pu")
 category = 2
-must_complete = true
 target_group = "Food"
 
 [node name="UtilityAggregator" type="Node" parent="UtilityAgent/FindFood"]
 script = ExtResource("5_m3ixm")
-operation = 1
 
 [node name="HungerConsideration" type="Node" parent="UtilityAgent/FindFood/UtilityAggregator" node_paths=PackedStringArray("buddy")]
 script = ExtResource("5_roxhj")

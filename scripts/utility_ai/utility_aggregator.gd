@@ -1,7 +1,7 @@
 class_name UtilityAggregator
 extends Node
 
-@export var operation: UtilityAggregator.OPERATION
+@export var operation: UtilityAggregator.OPERATION = UtilityAggregator.OPERATION.MULTIPLY
 
 var children_scores: Array
 
@@ -46,8 +46,9 @@ func get_score() -> float:
 	for child: UtilityConsideration in get_children():
 		children_scores.append(child.get_score())
 	score = combine_scores(children_scores)
+	print_aggregates()
 	return score
 
 
 func print_aggregates() -> void:
-	print(children_scores)
+	print(get_parent().name + ": " + str(children_scores))

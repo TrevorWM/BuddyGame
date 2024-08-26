@@ -1,7 +1,7 @@
 class_name StatConsideration
 extends UtilityConsideration
 
-@export var stat: Globals.STAT
+@export var stat: Globals.STAT = Globals.STAT.NONE
 
 func score() -> float:
 	var value: float = 0.0

@@ -92,6 +92,7 @@ material_override = SubResource("StandardMaterial3D_ewgop")
 mesh = SubResource("BoxMesh_u4lsl")
 
 [node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="Obstacle"]
+radius = 1.0
 
 [node name="Obstacle2" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.03614, 0.430186, 2.56252)
@@ -106,6 +107,7 @@ material_override = SubResource("StandardMaterial3D_ewgop")
 mesh = SubResource("BoxMesh_u4lsl")
 
 [node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="Obstacle2"]
+radius = 1.0
 
 [node name="Player" parent="." instance=ExtResource("1_n7tn8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.53638, 12.5073)

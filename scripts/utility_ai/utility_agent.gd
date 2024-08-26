@@ -3,6 +3,8 @@ extends Node
 
 @export var buddy: Buddy
 @export var score_update_timer: Timer
+@export var show_debug: bool = false
+@export var top_score_random_threshold: float
 
 signal scores_updated
 
@@ -28,8 +30,8 @@ func update_scores() -> void:
 func _on_score_update_timer_timeout():
 	update_scores()
 	use_top_score_behaviour()
-	var stat_string :String = "State %s\n%s"
-	$Control/Label.text = stat_string % [current_action.name,scores]
+	if show_debug:
+		show_scores_debug()
 	
 func get_top_score() -> String:
 	return scores.find_key(scores.values().max())
@@ -55,6 +57,13 @@ func use_top_score_behaviour() -> void:
 			current_action.perform_action(buddy)
 			return
 		
-	var utility_action: UtilityAction = get_node(get_random_top_score_in_range(0.2))
+	var utility_action: UtilityAction = get_node(get_random_top_score_in_range(top_score_random_threshold))
 	current_action = utility_action
 	current_action.perform_action(buddy)
+
+func show_scores_debug() -> void:
+	var stat_string :String = "AI Debug\n"
+	stat_string += "Current Action: " + str(current_action.name) + "\n"
+	for action in scores:
+		stat_string += "%s: %s\n" % [action, scores[action]]
+	$Control/Label.text = stat_string
