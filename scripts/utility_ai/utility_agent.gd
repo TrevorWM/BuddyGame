@@ -1,7 +1,7 @@
 class_name UtilityAgent
 extends Node
 
-@export var buddy: Buddy
+
 @export var score_update_timer: Timer
 @export var show_debug: bool = false
 @export var top_score_random_threshold: float
@@ -10,7 +10,7 @@ signal scores_updated
 
 var scores: Dictionary
 var current_action: UtilityAction
-var stats: BuddyStatsResource
+var buddy: Buddy
 
 enum CATEGORY{
 	DEFAULT = 1,
@@ -18,8 +18,13 @@ enum CATEGORY{
 	NEED = 3,
 }
 
-func _ready():
-	await owner.ready
+func initialize(owning_buddy: Buddy) -> void:
+	buddy = owning_buddy as Buddy
+	
+	if buddy == null:
+		printerr("Utility agent failed to initialize. Buddy is null")
+		return
+	
 	score_update_timer.start()
 	
 func update_scores() -> void:

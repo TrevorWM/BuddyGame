@@ -7,21 +7,21 @@ func score() -> float:
 	var value: float = 0.0
 	match stat:
 		Globals.STAT.MUSCLE:
-			value = float(buddy.stats.muscle) / float(buddy.stats.max_muscle)
+			value = buddy.stats.get_muscle_percent()
 		Globals.STAT.BRAINS:
-			value = float(buddy.stats.brains) / float(buddy.stats.max_brains)
+			value = buddy.stats.get_brains_percent()
 		Globals.STAT.LUCK:
-			value = float(buddy.stats.luck) / float(buddy.stats.max_luck)
+			value = buddy.stats.get_luck_percent()
 		Globals.STAT.ZOOM:
-			value = float(buddy.stats.zoom) / float(buddy.stats.max_zoom)
+			value = buddy.stats.get_zoom_percent()
 		Globals.STAT.ENERGY:
-			value = float(buddy.stats.energy) / float(buddy.stats.max_energy)
+			value = buddy.stats.get_energy_percent()
 		Globals.STAT.BOREDOM:
-			value = float(buddy.stats.boredom) / float(buddy.stats.max_boredom)
+			value = buddy.stats.get_boredom_percent()
 		Globals.STAT.AFFECTION:
-			value = float(buddy.stats.affection) / float(buddy.stats.max_affection)
+			value = buddy.stats.get_affection_percent()
 		Globals.STAT.HUNGER:
-			value = float(buddy.stats.hunger) / float(buddy.stats.max_hunger)
+			value = buddy.stats.get_hunger_percent()
 		_:
 			printerr("Invalid stat chosen for " + name)
 	return value

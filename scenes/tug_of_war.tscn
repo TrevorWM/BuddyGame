@@ -1,0 +1,52 @@
+[gd_scene load_steps=5 format=3 uid="uid://5avicnv0vxfv"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ncng5"]
+sky_top_color = Color(0.379371, 0.557964, 0.868519, 1)
+sky_horizon_color = Color(0.644843, 0.681741, 0.75038, 1)
+ground_horizon_color = Color(0.644843, 0.681741, 0.75038, 1)
+
+[sub_resource type="Sky" id="Sky_sdpit"]
+sky_material = SubResource("ProceduralSkyMaterial_ncng5")
+
+[sub_resource type="Environment" id="Environment_e3tsk"]
+background_mode = 2
+sky = SubResource("Sky_sdpit")
+ssao_enabled = true
+sdfgi_enabled = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_5m76t"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_e3tsk")
+
+[node name="TugOfWarMap" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.10516, 0.113342, -1.02351)
+use_collision = true
+size = Vector3(30.7627, 1.22668, 12.4461)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="TugOfWarMap"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.13953, 0.33799, -0.0179191)
+operation = 2
+size = Vector3(2.21802, 1, 13.2749)
+
+[node name="PlaceholderLeft" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.96363, 1.2202, -3.6884)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PlaceholderLeft"]
+mesh = SubResource("SphereMesh_5m76t")
+
+[node name="PlaceholderRight" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.927702, 1.2202, -3.6884)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PlaceholderRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.53477, 0, 0)
+mesh = SubResource("SphereMesh_5m76t")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.978256, 0.2074, 0, -0.2074, 0.978256, 0, 2.87087, 2.28594)

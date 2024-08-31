@@ -1,4 +1,4 @@
-class_name BuddyStatsResource
+class_name BuddyResource
 extends Resource
 
 @export var buddy_name: String

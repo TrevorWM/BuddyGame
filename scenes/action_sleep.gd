@@ -21,6 +21,3 @@ func create_timer() -> void:
 	timer.one_shot = true
 	timer.connect("timeout", _on_timer_timeout)
 	timer.start()
-	
-	
-	

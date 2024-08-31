@@ -7,8 +7,8 @@ enum BUDDY_STATE{
 	SLEEP,
 }
 
-@export var wander_radius: float = 5.0
-@export var stats: BuddyStatsResource
+@export var resource: BuddyResource
+@export var stats: BuddyStats
 @export var utility_agent: UtilityAgent
 @export var state_text: Label3D
 @export var interactor_component: InteractorComponent
@@ -21,6 +21,8 @@ var movement_speed: float
 
 func _ready() -> void:
 	navigation_agent.velocity_computed.connect(Callable(_on_velocity_computed))
+	stats.initialize(resource)
+	utility_agent.initialize(self)
 	movement_speed = stats.zoom
 
 func set_movement_target(movement_target: Vector3):
@@ -45,11 +47,6 @@ func _on_velocity_computed(safe_velocity: Vector3):
 	velocity = safe_velocity
 	move_and_slide()
 
-func get_random_nearby_position() -> Vector3:
-	return Vector3(
-				randf_range(-wander_radius, wander_radius), 
-				0, 
-				randf_range(-wander_radius, wander_radius))
 
 func use_interactor(target: Node3D) -> void:
 	interactor_component.set_target(target)
