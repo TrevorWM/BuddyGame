@@ -1,12 +1,6 @@
 class_name Buddy
 extends CharacterBody3D
 
-enum BUDDY_STATE{
-	IDLE,
-	WANDER,
-	SLEEP,
-}
-
 @export var resource: BuddyResource
 @export var stats: BuddyStats
 @export var utility_agent: UtilityAgent
@@ -16,13 +10,12 @@ enum BUDDY_STATE{
 
 @onready var navigation_agent: NavigationAgent3D = get_node("NavigationAgent3D")
 
-var state = BUDDY_STATE.IDLE
 var movement_speed: float
 
 func _ready() -> void:
 	navigation_agent.velocity_computed.connect(Callable(_on_velocity_computed))
 	stats.initialize(resource)
-	utility_agent.initialize(self)
+	utility_agent.initialize(self, true)
 	movement_speed = stats.zoom
 
 func set_movement_target(movement_target: Vector3):

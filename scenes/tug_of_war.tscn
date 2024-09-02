@@ -1,4 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://5avicnv0vxfv"]
+[gd_scene load_steps=6 format=3 uid="uid://5avicnv0vxfv"]
+
+[ext_resource type="Script" path="res://scripts/minigames/tug_of_war.gd" id="1_v1t23"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ncng5"]
 sky_top_color = Color(0.379371, 0.557964, 0.868519, 1)
@@ -16,7 +18,9 @@ sdfgi_enabled = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_5m76t"]
 
-[node name="Node3D" type="Node3D"]
+[node name="TugOfWar" type="Node3D" node_paths=PackedStringArray("stat_check_timer")]
+script = ExtResource("1_v1t23")
+stat_check_timer = NodePath("StatCheck")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
@@ -41,12 +45,28 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.96363, 1.2202, -3.6884)
 [node name="MeshInstance3D" type="MeshInstance3D" parent="PlaceholderLeft"]
 mesh = SubResource("SphereMesh_5m76t")
 
+[node name="Label3D" type="Label3D" parent="PlaceholderLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+billboard = 1
+
 [node name="PlaceholderRight" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.927702, 1.2202, -3.6884)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.78843, 1.2202, -3.6884)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="PlaceholderRight"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.53477, 0, 0)
 mesh = SubResource("SphereMesh_5m76t")
+
+[node name="Label3D" type="Label3D" parent="PlaceholderRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+billboard = 1
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.978256, 0.2074, 0, -0.2074, 0.978256, 0, 2.87087, 2.28594)
+
+[node name="StatCheck" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -3)
+billboard = 1
+
+[connection signal="timeout" from="StatCheck" to="." method="_on_stat_check_timeout"]

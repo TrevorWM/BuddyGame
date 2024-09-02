@@ -18,14 +18,18 @@ enum CATEGORY{
 	NEED = 3,
 }
 
-func initialize(owning_buddy: Buddy) -> void:
+func initialize(owning_buddy: Buddy, start_ai: bool) -> void:
 	buddy = owning_buddy as Buddy
 	
 	if buddy == null:
 		printerr("Utility agent failed to initialize. Buddy is null")
 		return
 	
-	score_update_timer.start()
+	if start_ai:
+		score_update_timer.start()
+	
+func stop_ai() -> void:
+	score_update_timer.stop()
 	
 func update_scores() -> void:
 	for child in get_children():
