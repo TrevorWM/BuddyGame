@@ -1,8 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://bhoo4pm1mwoxd"]
+[gd_scene load_steps=13 format=3 uid="uid://bhoo4pm1mwoxd"]
 
 [ext_resource type="PackedScene" uid="uid://c82wmbywkux6w" path="res://scenes/player.tscn" id="1_n7tn8"]
 [ext_resource type="PackedScene" uid="uid://cs7ufcprscwtt" path="res://scenes/buddy.tscn" id="2_rrblp"]
-[ext_resource type="Script" path="res://scripts/resources/buddy.gd" id="3_vs8kt"]
 [ext_resource type="PackedScene" uid="uid://cgld3uom0jokk" path="res://scenes/food.tscn" id="4_dgxo0"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2hh0y"]
@@ -34,27 +33,6 @@ size = Vector2(50, 50)
 albedo_color = Color(1, 0.533333, 1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_u4lsl"]
-
-[sub_resource type="Resource" id="Resource_ars61"]
-resource_local_to_scene = true
-script = ExtResource("3_vs8kt")
-buddy_name = "Sloth"
-max_muscle = 5
-muscle = 2
-max_brains = 5
-brains = 2
-max_luck = 10
-luck = 10
-max_zoom = 5
-zoom = 1
-max_energy = 5
-energy = 5
-max_affection = 100
-affection = 100
-max_boredom = 100
-boredom = 100
-max_hunger = 100
-hunger = 100
 
 [node name="World" type="Node3D"]
 
@@ -114,7 +92,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.53638, 12.5073)
 collision_mask = 6
 
 [node name="Buddy" parent="." instance=ExtResource("2_rrblp")]
-resource = SubResource("Resource_ars61")
 
 [node name="Food" parent="." instance=ExtResource("4_dgxo0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.34056, 1.08569, 4.696)

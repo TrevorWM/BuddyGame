@@ -11,13 +11,13 @@ func perform_action(buddy_node: Buddy) -> void:
 	buddy.set_movement_target(buddy.global_position)
 
 func _on_timer_timeout() -> void:
-	buddy.stats.energy = buddy.stats.max_energy
+	buddy.data.energy = buddy.data.max_energy
 	is_complete = true
 	
 func create_timer() -> void:
 	var timer: Timer = Timer.new()
 	add_child(timer)
-	timer.wait_time = (buddy.stats.max_energy - buddy.stats.energy)
+	timer.wait_time = (buddy.data.max_energy - buddy.data.energy)
 	timer.one_shot = true
 	timer.connect("timeout", _on_timer_timeout)
 	timer.start()

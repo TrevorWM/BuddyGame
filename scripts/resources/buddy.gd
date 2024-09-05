@@ -2,6 +2,7 @@ class_name BuddyResource
 extends Resource
 
 @export var buddy_name: String
+
 @export_category("Player Facing Stats")
 @export var max_muscle: int
 @export var muscle: int:
@@ -59,3 +60,27 @@ extends Resource
 		return hunger
 	set(value):
 		hunger = clampi(value, 0, max_hunger)
+
+func get_muscle_percent() -> float:
+	return float(muscle) / float(max_muscle)
+	
+func get_brains_percent() -> float:
+	return float(brains) / float(max_brains)
+	
+func get_luck_percent() -> float:
+	return float(luck) / float(max_luck)
+	
+func get_zoom_percent() -> float:
+	return float(zoom) / float(max_zoom)
+	
+func get_energy_percent() -> float:
+	return float(energy) / float(max_energy)
+	
+func get_affection_percent() -> float:
+	return float(affection) / float(max_affection)
+	
+func get_boredom_percent() -> float:
+	return float(boredom) / float(max_boredom)
+	
+func get_hunger_percent() -> float:
+	return float(hunger) / float(max_hunger)

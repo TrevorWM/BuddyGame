@@ -8,8 +8,8 @@ func perform_action(buddy: Buddy) -> void:
 		buddy.set_movement_target(get_random_nearby_position(buddy, wander_radius))
 	
 	buddy.state_text.text = "WANDER"
-	buddy.stats.energy -= 1
-	buddy.stats.hunger -= 5
+	buddy.data.energy -= 1
+	buddy.data.hunger -= 5
 
 func get_random_nearby_position(buddy: Buddy, radius: float) -> Vector3:
 	return Vector3(

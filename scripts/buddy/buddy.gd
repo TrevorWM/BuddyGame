@@ -1,8 +1,7 @@
 class_name Buddy
 extends CharacterBody3D
 
-@export var resource: BuddyResource
-@export var stats: BuddyStats
+@export var buddy_resource: BuddyResource
 @export var utility_agent: UtilityAgent
 @export var state_text: Label3D
 @export var interactor_component: InteractorComponent
@@ -11,12 +10,14 @@ extends CharacterBody3D
 @onready var navigation_agent: NavigationAgent3D = get_node("NavigationAgent3D")
 
 var movement_speed: float
+var data: BuddyResource = null
 
 func _ready() -> void:
+	if data == null:
+		data = buddy_resource.duplicate()
 	navigation_agent.velocity_computed.connect(Callable(_on_velocity_computed))
-	stats.initialize(resource)
 	utility_agent.initialize(self, true)
-	movement_speed = stats.zoom
+	movement_speed = data.zoom
 
 func set_movement_target(movement_target: Vector3):
 	navigation_agent.set_target_position(movement_target)
