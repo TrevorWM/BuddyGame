@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="BuddyResource" load_steps=2 format=3 uid="uid://bxmncj0ni05ec"]
+
+[ext_resource type="Script" path="res://scripts/resources/buddy.gd" id="1_iyw0s"]
+
+[resource]
+script = ExtResource("1_iyw0s")
+buddy_name = "Dog"
+max_muscle = 20
+muscle = 5
+max_brains = 30
+brains = 10
+max_luck = 100
+luck = 50
+max_zoom = 100
+zoom = 20
+max_energy = 20
+energy = 10
+max_affection = 20
+affection = 20
+max_boredom = 20
+boredom = 20
+max_hunger = 20
+hunger = 20
