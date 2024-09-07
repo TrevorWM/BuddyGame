@@ -8,6 +8,7 @@ extends CharacterBody3D
 @export var state_text: Label3D
 @export var interactor_component: InteractorComponent
 @export var grabber_component: GrabberComponent
+@export var audio_player: AudioStreamPlayer3D
 
 @onready var navigation_agent: NavigationAgent3D = get_node("NavigationAgent3D")
 
@@ -29,6 +30,12 @@ func _ready() -> void:
 func set_movement_target(movement_target: Vector3):
 	navigation_agent.set_target_position(movement_target)
 
+func _process(_delta):
+	if navigation_agent.is_navigation_finished():
+		audio_player.stream_paused = true
+	else:
+		audio_player.stream_paused = false
+
 func _physics_process(_delta):
 	if navigation_agent.is_navigation_finished():
 		return
@@ -43,6 +50,7 @@ func _physics_process(_delta):
 		
 	if velocity != Vector3.ZERO:
 		look_at(global_position + Vector3(velocity.x, 0, velocity.z))
+
 
 func _on_velocity_computed(safe_velocity: Vector3):
 	velocity = safe_velocity

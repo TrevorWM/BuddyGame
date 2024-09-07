@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cs7ufcprscwtt"]
+[gd_scene load_steps=29 format=3 uid="uid://cs7ufcprscwtt"]
 
 [ext_resource type="Script" path="res://scripts/buddy/buddy.gd" id="1_jecxs"]
 [ext_resource type="Resource" uid="uid://b0o4rl00u0x23" path="res://assets/resources/sloth_buddy.tres" id="2_0p0mv"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" path="res://scripts/utility_ai/actions/action_eat.gd" id="12_0s7l0"]
 [ext_resource type="PackedScene" uid="uid://cwlout84uhhks" path="res://scenes/components/buddy_interactor_component.tscn" id="12_2ydgd"]
 [ext_resource type="Script" path="res://scripts/utility_ai/actions/action_wander.gd" id="13_swp3t"]
+[ext_resource type="AudioStream" uid="uid://bhsv07qbh6ep" path="res://assets/audio/dejavu.mp3" id="16_m06ox"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_0848a"]
 
@@ -60,7 +61,7 @@ radius = 0.728524
 [sub_resource type="BoxShape3D" id="BoxShape3D_yjoof"]
 size = Vector3(1, 1.10254, 1.16089)
 
-[node name="Buddy" type="CharacterBody3D" node_paths=PackedStringArray("utility_agent", "state_text", "interactor_component", "grabber_component") groups=["Buddy"]]
+[node name="Buddy" type="CharacterBody3D" node_paths=PackedStringArray("utility_agent", "state_text", "interactor_component", "grabber_component", "audio_player") groups=["Buddy"]]
 collision_layer = 2
 collision_mask = 7
 script = ExtResource("1_jecxs")
@@ -69,6 +70,7 @@ utility_agent = NodePath("UtilityAgent")
 state_text = NodePath("StateText")
 interactor_component = NodePath("BuddyInteractorComponent")
 grabber_component = NodePath("Grabber")
+audio_player = NodePath("AudioStreamPlayer3D")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
@@ -213,6 +215,12 @@ collision_layer = 32
 [node name="CollisionShape3D" parent="BuddyInteractorComponent/Area3D" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0512695, -0.561401)
 shape = SubResource("BoxShape3D_yjoof")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("16_m06ox")
+autoplay = true
+emission_angle_enabled = true
+emission_angle_degrees = 90.0
 
 [connection signal="timeout" from="UtilityAgent/ScoreUpdateTimer" to="UtilityAgent" method="_on_score_update_timer_timeout"]
 
