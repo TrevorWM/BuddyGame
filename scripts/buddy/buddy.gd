@@ -2,6 +2,8 @@ class_name Buddy
 extends CharacterBody3D
 
 @export var buddy_resource: BuddyResource
+
+@export_group("Child Nodes")
 @export var utility_agent: UtilityAgent
 @export var state_text: Label3D
 @export var interactor_component: InteractorComponent
@@ -15,6 +17,11 @@ var data: BuddyResource = null
 func _ready() -> void:
 	if data == null:
 		data = buddy_resource.duplicate()
+	
+	var mesh = data.buddy_mesh.instantiate()
+	add_child(mesh)
+	
+	
 	navigation_agent.velocity_computed.connect(Callable(_on_velocity_computed))
 	utility_agent.initialize(self, true)
 	movement_speed = data.zoom

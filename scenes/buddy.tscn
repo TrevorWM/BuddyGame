@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://cs7ufcprscwtt"]
+[gd_scene load_steps=28 format=3 uid="uid://cs7ufcprscwtt"]
 
 [ext_resource type="Script" path="res://scripts/buddy/buddy.gd" id="1_jecxs"]
 [ext_resource type="Resource" uid="uid://b0o4rl00u0x23" path="res://assets/resources/sloth_buddy.tres" id="2_0p0mv"]
@@ -15,12 +15,6 @@
 [ext_resource type="Script" path="res://scripts/utility_ai/actions/action_eat.gd" id="12_0s7l0"]
 [ext_resource type="PackedScene" uid="uid://cwlout84uhhks" path="res://scenes/components/buddy_interactor_component.tscn" id="12_2ydgd"]
 [ext_resource type="Script" path="res://scripts/utility_ai/actions/action_wander.gd" id="13_swp3t"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_01pmt"]
-resource_local_to_scene = true
-albedo_color = Color(0.403922, 0.721569, 0.32549, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_0n2x8"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_0848a"]
 
@@ -67,7 +61,6 @@ radius = 0.728524
 size = Vector3(1, 1.10254, 1.16089)
 
 [node name="Buddy" type="CharacterBody3D" node_paths=PackedStringArray("utility_agent", "state_text", "interactor_component", "grabber_component") groups=["Buddy"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0165722, 0.542971, 0)
 collision_layer = 2
 collision_mask = 7
 script = ExtResource("1_jecxs")
@@ -77,16 +70,13 @@ state_text = NodePath("StateText")
 interactor_component = NodePath("BuddyInteractorComponent")
 grabber_component = NodePath("Grabber")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-material_override = SubResource("StandardMaterial3D_01pmt")
-mesh = SubResource("SphereMesh_0n2x8")
-
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
 radius = 1.0
 max_speed = 100.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.499642, 0)
 shape = SubResource("SphereShape3D_0848a")
 
 [node name="StateText" type="Label3D" parent="."]
@@ -201,6 +191,7 @@ buddy = NodePath("../../../..")
 score_curve = SubResource("Curve_0w4wr")
 
 [node name="InteractableComponent" parent="." instance=ExtResource("5_0nmuo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.725421, 0)
 hint_text = "Pet the boi"
 interacted_text = "*happy sloth noises*"
 
@@ -213,6 +204,7 @@ shape = SubResource("SphereShape3D_xtq4j")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.181047, -0.728976)
 
 [node name="BuddyInteractorComponent" parent="." node_paths=PackedStringArray("buddy") instance=ExtResource("12_2ydgd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.648656, 0)
 buddy = NodePath("..")
 
 [node name="Area3D" parent="BuddyInteractorComponent" index="0"]

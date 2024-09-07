@@ -2,6 +2,8 @@ class_name BuddyResource
 extends Resource
 
 @export var buddy_name: String
+@export var buddy_mesh: PackedScene
+
 
 @export_category("Player Facing Stats")
 @export var max_muscle: int
