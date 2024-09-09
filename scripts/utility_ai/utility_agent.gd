@@ -1,12 +1,9 @@
 class_name UtilityAgent
 extends Node
 
-
 @export var score_update_timer: Timer
 @export var show_debug: bool = false
 @export var top_score_random_threshold: float
-
-signal scores_updated
 
 var scores: Dictionary
 var current_action: UtilityAction
