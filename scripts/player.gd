@@ -59,3 +59,7 @@ func handle_mouse_mode():
 func handle_interact() -> void:
 	if Input.is_action_just_pressed("interact"):
 		interactor_component.interact()
+
+
+func _on_tree_exiting() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

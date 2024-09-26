@@ -2,6 +2,7 @@ class_name TugOfWar
 extends Node3D
 
 @export var stat_check_timer: Timer
+@export var tug_of_war_ui: PackedScene
 
 var left_buddy: BuddyResource
 var right_buddy: BuddyResource
@@ -33,6 +34,16 @@ enum STATE {
 	WINNER,
 	ENDGAME,
 }
+
+func _ready() -> void:
+	if not Globals.main_scene:
+		printerr("%s could not find main scene" % self.name)
+		return
+	
+	var ui_instance = tug_of_war_ui.instantiate()
+	ui_instance.init()
+	Globals.main_scene.add_ui_node(ui_instance)
+	SignalBus.buddy_selected.connect(buddy_selected)
 
 func _on_stat_check_timeout():
 	var left_roll: int = 0
@@ -70,9 +81,13 @@ func _on_stat_check_timeout():
 	if left_roll > right_roll:
 		print("Left tugs")
 		rope_position -= (left_roll - right_roll)
+		$PlaceholderLeft.position.x -= (left_roll - right_roll) * 0.05
+		$PlaceholderRight.position.x -= (left_roll - right_roll) * 0.05
 	elif right_roll > left_roll:
 		print("Right tugs")
 		rope_position += (right_roll - left_roll)
+		$PlaceholderLeft.position.x += (right_roll - left_roll) * 0.05
+		$PlaceholderRight.position.x += (right_roll - left_roll) * 0.05
 	else:
 		print("Tie!")
 	
@@ -114,25 +129,29 @@ func init_buddy_stats() -> void:
 	left_current_energy = left_buddy.energy
 	left_start_energy = left_buddy.energy
 	
+	if left_buddy.buddy_mesh:
+		$PlaceholderLeft.add_child(left_buddy.buddy_mesh.instantiate())
+	
 	right_start_muscle = right_buddy.muscle
 	right_current_muscle = right_buddy.muscle
 	right_current_energy = right_buddy.energy
 	right_start_energy = right_buddy.energy
+	
+	if right_buddy.buddy_mesh:
+		$PlaceholderRight.add_child(right_buddy.buddy_mesh.instantiate())
+
+func buddy_selected(buddy_resource: BuddyResource) -> void:
+	print("Game sees you selected a buddy!")
+	
+	# Disconnect from the signal to prevent weird things from happening
+	SignalBus.buddy_selected.disconnect(buddy_selected)
+	
+	left_buddy = buddy_resource
+	right_buddy = Globals.current_buddies.pick_random()
+	start_game()
 
 func start_game() -> void:
+	Globals.main_scene.hide_ui()
 	init_buddy_stats()
 	stat_check_timer.start()
 	game_state = STATE.RUNNING
-
-func _on_sloth_button_pressed():
-	left_buddy = preload("res://assets/resources/sloth_buddy.tres")
-	right_buddy = preload("res://assets/resources/dog_buddy.tres")
-	$UI.hide()
-	start_game()
-
-
-func _on_dog_button_pressed():
-	left_buddy = Globals.current_buddies[1]
-	right_buddy = Globals.current_buddies[0]
-	$UI.hide()
-	start_game()

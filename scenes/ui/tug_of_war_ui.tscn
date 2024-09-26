@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3 uid="uid://djhljvpaw3vbk"]
+
+[ext_resource type="Script" path="res://scripts/ui/tug_of_war_ui.gd" id="1_bk74x"]
+[ext_resource type="PackedScene" uid="uid://cy6phdeeqp0bi" path="res://scenes/ui/ui_components/buddy_button.tscn" id="2_ksmjp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lofda"]
+bg_color = Color(0.147672, 0.147672, 0.147672, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_blend = true
+
+[node name="TugOfWarUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bk74x")
+buddy_button = ExtResource("2_ksmjp")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -262.5
+offset_top = -20.0
+offset_right = 262.5
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_lofda")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Select Your Buddy!"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="BuddyGrid" type="GridContainer" parent="PanelContainer/VBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+columns = 5
